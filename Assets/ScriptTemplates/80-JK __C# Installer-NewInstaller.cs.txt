@@ -1,0 +1,23 @@
+using System;
+using System.Collections;
+using System.Collections.Generic;
+using UnityEngine;
+using UnityEngine.Events;
+
+namespace #NAMESPACE#
+{
+    [DisallowMultipleComponent]
+    public class #SCRIPTNAME# : Installer
+    {
+        #region Inspector
+
+        #NOTRIM#
+
+        #endregion
+
+        public override void Install(Context context)
+        {
+            #NOTRIM#
+        }
+    }
+}
