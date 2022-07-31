@@ -2422,6 +2422,7 @@ GameObject:
   - component: {fileID: 911058700}
   - component: {fileID: 911058702}
   - component: {fileID: 911058703}
+  - component: {fileID: 911058704}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -2482,7 +2483,6 @@ MonoBehaviour:
   _onMovement:
     m_PersistentCalls:
       m_Calls: []
-  dbgRotation: 0
 --- !u!114 &911058701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2508,6 +2508,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _speed: 3
+  dbgAngle: 0
+  <Target>k__BackingField: {x: 0, y: 0, z: 0}
 --- !u!114 &911058703
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2521,6 +2523,22 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   camera: {fileID: 519420031}
+--- !u!58 &911058704
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911058697}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!43 &942304571
 Mesh:
   m_ObjectHideFlags: 0
