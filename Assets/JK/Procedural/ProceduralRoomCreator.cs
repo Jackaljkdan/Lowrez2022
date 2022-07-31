@@ -1,3 +1,4 @@
+using JK.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -28,7 +29,7 @@ namespace JK.Procedural
 
         private void Start()
         {
-            
+
         }
 
         public void CreateRoomsAdjacentTo(Room room)
@@ -49,17 +50,54 @@ namespace JK.Procedural
                 if (connection.Connected != null)
                     continue;
 
-                Room instance = InstantiateRandomRoom();
-                instance.GetRandomConnection().ConnectAndMoveSelf(connection);
-                yield return instance;
+                if (TryInstantiatingFittingRoomConnectedTo(connection, out Room instance))
+                    yield return instance;
+            }
+        }
+
+        private bool TryInstantiatingFittingRoomConnectedTo(RoomConnection connection, out Room instance)
+        {
+            roomPrefabs.ShuffleInPlace();
+
+            foreach (var prefab in roomPrefabs)
+            {
+                instance = InstantiateRoom(prefab);
+
+                instance.Connections.ShuffleInPlace();
+
+                foreach (var instanceConnection in instance.Connections)
+                {
+                    instanceConnection.MoveTo(connection);
+                    Physics2D.SyncTransforms();
+
+                    if (instance.IsFittingCurrentPosition())
+                    {
+                        instanceConnection.Connect(connection);
+                        return true;
+                    }
+                }
+
+                instance.gameObject.SetActive(false);
+
+                if (PlatformUtils.IsEditor && !Application.isPlaying)
+                    DestroyImmediate(instance.gameObject);
+                else
+                    Destroy(instance.gameObject);
             }
 
-        }
+            instance = null;
+            return false;
+        } 
 
         private Room InstantiateRandomRoom()
         {
             int randomIndex = UnityEngine.Random.Range(0, roomPrefabs.Count);
-            Room instance = Instantiate(roomPrefabs[randomIndex], transform);
+            return InstantiateRoom(roomPrefabs[randomIndex]);
+        }
+
+        private Room InstantiateRoom(Room prefab)
+        {
+            Room instance = Instantiate(prefab, transform);
             return instance;
         }
     }

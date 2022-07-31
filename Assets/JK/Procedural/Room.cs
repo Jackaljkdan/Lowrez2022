@@ -14,11 +14,19 @@ namespace JK.Procedural
 
         public Transform connectionsParent;
 
-        //public Transform collidersParent;
+        public RoomFitter fitter;
 
         private void Reset()
         {
             connectionsParent = transform;
+            fitter = GetComponentInChildren<RoomFitter>();
+        }
+
+        [ContextMenu("Log is fitting")]
+        private void LogIsFittingInEditMode()
+        {
+            fitter.Awake();
+            Debug.Log("is room fitting: " + IsFittingCurrentPosition());
         }
 
         #endregion
@@ -40,6 +48,11 @@ namespace JK.Procedural
         {
             int index = UnityEngine.Random.Range(0, Connections.Count);
             return Connections[index];
+        }
+
+        public bool IsFittingCurrentPosition()
+        {
+            return fitter.IsFitting();
         }
     }
 }

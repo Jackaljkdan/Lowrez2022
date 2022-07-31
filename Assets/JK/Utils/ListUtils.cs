@@ -28,18 +28,6 @@ namespace JK.Utils
             }
         }
 
-        private static readonly List<int> indexes = new List<int>(32);
-
-        public static IEnumerable<T> EnumeraterRandomly<T>(this IList<T> list)
-        {
-            indexes.Clear();
-            indexes.AddRange(EnumerateUpTo(list.Count));
-            indexes.ShuffleInPlace();
-
-            for (int i = 0; i < indexes.Count; i++)
-                yield return list[i];
-        }
-
         public static IEnumerable<int> EnumerateUpTo(int n)
         {
             for (int i = 0; i < n; i++)
