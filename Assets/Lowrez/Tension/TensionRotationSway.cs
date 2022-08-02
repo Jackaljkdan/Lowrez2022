@@ -33,6 +33,10 @@ namespace Lowrez.Tension
 
             tension = Context.Find(this).Get<ObservableProperty<float>>("tension");
             tension.onChange.AddListener(OnTensionChanged);
+        }
+
+        private void Start()
+        {
             OnTensionChanged(new ObservableProperty<float>.Changed() { updated = tension.Value });
         }
 
