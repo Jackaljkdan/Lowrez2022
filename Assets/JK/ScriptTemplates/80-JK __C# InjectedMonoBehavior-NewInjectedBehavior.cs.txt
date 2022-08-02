@@ -1,4 +1,3 @@
-using JK.Injection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -8,7 +7,7 @@ using UnityEngine.Events;
 namespace #NAMESPACE#
 {
     [DisallowMultipleComponent]
-    public class #SCRIPTNAME# : Installer
+    public class #SCRIPTNAME# : MonoBehaviour
     {
         #region Inspector
 
@@ -16,7 +15,12 @@ namespace #NAMESPACE#
 
         #endregion
 
-        public override void Install(Context context)
+        private void Awake()
+        {
+            Context context = Context.Find(this);
+        }
+
+        private void Start()
         {
             #NOTRIM#
         }
