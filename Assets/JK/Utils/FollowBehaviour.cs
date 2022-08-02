@@ -12,6 +12,8 @@ namespace JK.Utils
 
         public Transform target;
 
+        public Vector3 offset = Vector3.zero;
+
         #endregion
     }
 }
