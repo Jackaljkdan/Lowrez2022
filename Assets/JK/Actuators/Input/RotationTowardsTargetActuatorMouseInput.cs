@@ -11,7 +11,7 @@ namespace JK.Actuators.Input
     {
         #region Inspector
 
-        public Camera camera;
+        public new Camera camera;
 
         #endregion
 

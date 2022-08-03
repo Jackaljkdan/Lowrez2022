@@ -12,7 +12,7 @@ namespace JK.Procedural
     {
         #region Inspector
 
-        
+        public LayerMask mask;
 
         #endregion
 
@@ -31,7 +31,14 @@ namespace JK.Procedural
         {
             foreach (var collider in colliders)
             {
-                int overlapping = collider.OverlapCollider(new ContactFilter2D() { }, overlapBuffer);
+                int overlapping = collider.OverlapCollider(
+                    new ContactFilter2D()
+                    {
+                        useLayerMask = true,
+                        layerMask = mask
+                    }, 
+                    overlapBuffer
+                );
 
                 if (overlapping > 0)
                     return false;

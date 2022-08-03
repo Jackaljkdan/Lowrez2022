@@ -126,6 +126,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac233ec11263613429020866a4c2fecd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  mask:
+    serializedVersion: 2
+    m_Bits: 64
 --- !u!1 &5659883519787030681
 GameObject:
   m_ObjectHideFlags: 0
@@ -221,22 +224,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 4702265871408689424}
     m_Modifications:
-    - target: {fileID: 1989281873925213943, guid: 6bffa0127f9941b4d8bf33a176e128b8, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.6532815
-      objectReference: {fileID: 0}
-    - target: {fileID: 1989281873925213943, guid: 6bffa0127f9941b4d8bf33a176e128b8, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: -0.6532815
-      objectReference: {fileID: 0}
-    - target: {fileID: 1989281873925213943, guid: 6bffa0127f9941b4d8bf33a176e128b8, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.27059805
-      objectReference: {fileID: 0}
-    - target: {fileID: 1989281873925213943, guid: 6bffa0127f9941b4d8bf33a176e128b8, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0.27059805
-      objectReference: {fileID: 0}
     - target: {fileID: 1989281873925213943, guid: 6bffa0127f9941b4d8bf33a176e128b8, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: -90

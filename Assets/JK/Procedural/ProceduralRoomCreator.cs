@@ -55,6 +55,17 @@ namespace JK.Procedural
             }
         }
 
+        public bool TryCreateRoomForConnection(RoomConnection connection, out Room room)
+        {
+            if (connection.Connected != null)
+            {
+                room = connection.Connected.GetRoom();
+                return false;
+            }
+
+            return TryInstantiatingFittingRoomConnectedTo(connection, out room);
+        }
+
         private bool TryInstantiatingFittingRoomConnectedTo(RoomConnection connection, out Room instance)
         {
             roomPrefabs.ShuffleInPlace();
