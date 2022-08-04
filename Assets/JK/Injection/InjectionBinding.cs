@@ -6,7 +6,6 @@ using UnityEngine.Events;
 
 namespace JK.Injection
 {
-    [DisallowMultipleComponent]
     public class InjectionBinding : MonoBehaviour
     {
         #region Inspector

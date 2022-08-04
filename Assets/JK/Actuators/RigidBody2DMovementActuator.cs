@@ -16,6 +16,9 @@ namespace JK.Actuators
 
         public Transform _directionReference;
 
+        [field: SerializeField, Header("Runtime")]
+        public Vector3 Input { get; set; }
+
         [SerializeField]
         private UnityEvent<Vector3> _onMovement = new UnityEvent<Vector3>();
 
@@ -31,8 +34,6 @@ namespace JK.Actuators
             get => _speed;
             set => _speed = value;
         }
-
-        public Vector3 Input { get; set; }
 
         public Transform DirectionReference
         {
@@ -54,7 +55,7 @@ namespace JK.Actuators
             Vector2 properInput = new Vector2(Input.x, Input.z);
             Vector2 clampedInput = Vector2.ClampMagnitude(properInput, 1);
 
-            body.velocity = DirectionReference.TransformDirection(clampedInput);
+            body.velocity = DirectionReference.TransformDirection(clampedInput) * Speed;
 
             if (Input.sqrMagnitude > 0)
                 onMovement.Invoke(properInput);
