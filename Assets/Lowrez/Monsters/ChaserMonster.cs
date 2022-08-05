@@ -18,7 +18,7 @@ namespace Lowrez.Monsters
         public float maxDistanceToChase = 2;
         public float maxDistanceToGrab = 0.1f;
 
-        public float grabSecondsToKill = 5;
+        public GrabUpdater grabUpdater = new GrabUpdater();
 
         [Header("Runtime")]
 
@@ -27,16 +27,18 @@ namespace Lowrez.Monsters
         #endregion
         
         private Transform playerTransform;
-        private MovementActuatorInputBehaviour playerMovement;
-        private RotationTowardsTargetActuatorInputBehaviour playerRotation;
-        private Collider2D playerCollider;
 
         private void Awake()
         {
             playerTransform = Context.Find(this).Get<Transform>("player");
-            playerMovement = Context.Find(this).Get<MovementActuatorInputBehaviour>("player");
-            playerRotation = Context.Find(this).Get<RotationTowardsTargetActuatorInputBehaviour>("player");
-            playerCollider = Context.Find(this).Get<Collider2D>("player");
+
+            grabUpdater.Inject(
+                this,
+                playerTransform,
+                Context.Find(this).Get<MovementActuatorInputBehaviour>("player"),
+                Context.Find(this).Get<RotationTowardsTargetActuatorInputBehaviour>("player"),
+                Context.Find(this).Get<Collider2D>("player")
+            );
         }
 
         private void Start()
@@ -96,52 +98,25 @@ namespace Lowrez.Monsters
                 movement.Input = Vector3.zero;
 
                 if (distance <= maxDistanceToGrab)
+                {
+                    grabUpdater.Start();
                     return ChaserMonsterState.Grabbing;
+                }
                 else
+                {
                     return ChaserMonsterState.Idle;
+                }
             }
         }
-
-        private float grabSeconds;
-        private Vector2 lastInput;
 
         private ChaserMonsterState GrabUpdate()
         {
-            if (playerMovement.enabled)
-            {
-                playerMovement.enabled = false;
-                playerMovement.GetComponent<IMovementActuator>().Input = Vector3.zero;
-                playerRotation.enabled = false;
+            grabUpdater.Update();
 
-                playerCollider.enabled = false;
-                GetComponent<Collider2D>().enabled = false;
-
-                grabSeconds = 0;
-                lastInput = Vector2.zero;
-
-                StartCoroutine(BeginGrabCoroutine());
-            }
-
-            Vector2 input = new Vector2(
-                Input.GetAxisRaw("Horizontal"),
-                Input.GetAxisRaw("Vertical")
-            );
-
-            if (input.sqrMagnitude != 0)
-            {
-
-            }
-
-            return ChaserMonsterState.Grabbing;
-        }
-
-        private IEnumerator BeginGrabCoroutine()
-        {
-            while (Vector3.Distance(transform.position, playerTransform.position) > 0.01f)
-            {
-                transform.position = Vector3.Lerp(transform.position, playerTransform.position, 0.2f);
-                yield return null;
-            }
+            if (grabUpdater.IsGrabbing)
+                return ChaserMonsterState.Grabbing;
+            else
+                return ChaserMonsterState.Chasing;
         }
     }
 }
