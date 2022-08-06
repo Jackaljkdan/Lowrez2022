@@ -12,5 +12,6 @@ namespace Lowrez.Monsters
         Idle,
         Chasing,
         Grabbing,
+        Recovering,
     }
 }

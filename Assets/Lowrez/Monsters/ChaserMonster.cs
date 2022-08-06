@@ -21,6 +21,8 @@ namespace Lowrez.Monsters
 
         public GrabUpdater grabUpdater = new GrabUpdater();
 
+        public float recoverSeconds = 1;
+
         [Header("Runtime")]
 
         public ChaserMonsterState state;
@@ -73,6 +75,8 @@ namespace Lowrez.Monsters
                     return ChaseUpdate();
                 case ChaserMonsterState.Grabbing:
                     return GrabUpdate();
+                case ChaserMonsterState.Recovering:
+                    return RecoverUpdate();
             }
         }
 
@@ -89,7 +93,7 @@ namespace Lowrez.Monsters
             var movement = GetComponent<IMovementActuator>();
             float distance = Vector3.Distance(playerTransform.position, transform.position);
 
-            if (distance > maxDistanceToGrab && distance <= maxDistanceToChase)
+            if (distance <= maxDistanceToChase && distance > maxDistanceToGrab)
             {
                 Vector3 direction = (playerTransform.position - transform.position).normalized;
                 direction.z = direction.y;
@@ -120,7 +124,20 @@ namespace Lowrez.Monsters
                 return ChaserMonsterState.Grabbing;
 
             signalBus.Invoke(new UngrabbedSignal());
-            return ChaserMonsterState.Chasing;
+            return ChaserMonsterState.Recovering;
+        }
+
+        private float elapsedRecoverSeconds = 0;
+
+        private ChaserMonsterState RecoverUpdate()
+        {
+            elapsedRecoverSeconds += Time.deltaTime;
+
+            if (elapsedRecoverSeconds < recoverSeconds)
+                return ChaserMonsterState.Recovering;
+
+            elapsedRecoverSeconds = 0;
+            return IdleUpdate();
         }
     }
 }
