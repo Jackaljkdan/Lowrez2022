@@ -26,19 +26,24 @@ namespace Lowrez.Monsters
         public ChaserMonsterState state;
 
         #endregion
-        
+
+        private SignalBus signalBus;
+
         private Transform playerTransform;
 
         private void Awake()
         {
-            playerTransform = Context.Find(this).Get<Transform>("player");
+            var context = Context.Find(this);
+            signalBus = context.Get<SignalBus>();
+
+            playerTransform = context.Get<Transform>("player");
 
             grabUpdater.Inject(
                 this,
                 playerTransform,
-                Context.Find(this).Get<MovementActuatorInputBehaviour>("player"),
-                Context.Find(this).Get<RotationTowardsTargetActuatorInputBehaviour>("player"),
-                Context.Find(this).Get<Collider2D>("player")
+                context.Get<MovementActuatorInputBehaviour>("player"),
+                context.Get<RotationTowardsTargetActuatorInputBehaviour>("player"),
+                context.Get<Collider2D>("player")
             );
         }
 
@@ -98,16 +103,12 @@ namespace Lowrez.Monsters
             {
                 movement.Input = Vector3.zero;
 
-                if (distance <= maxDistanceToGrab)
-                {
-                    // TODO: tensione al max
-                    grabUpdater.Start();
-                    return ChaserMonsterState.Grabbing;
-                }
-                else
-                {
+                if (distance > maxDistanceToGrab)
                     return ChaserMonsterState.Idle;
-                }
+
+                signalBus.Invoke(new GrabbedSignal());
+                grabUpdater.Start();
+                return ChaserMonsterState.Grabbing;
             }
         }
 
@@ -117,8 +118,9 @@ namespace Lowrez.Monsters
 
             if (grabUpdater.IsGrabbing)
                 return ChaserMonsterState.Grabbing;
-            else
-                return ChaserMonsterState.Chasing;
+
+            signalBus.Invoke(new UngrabbedSignal());
+            return ChaserMonsterState.Chasing;
         }
     }
 }
