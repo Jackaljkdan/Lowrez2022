@@ -1,6 +1,7 @@
 using JK.Actuators;
 using JK.Actuators.Input;
 using JK.Injection;
+using JK.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -89,7 +90,7 @@ namespace Lowrez.Monsters
                 direction.z = direction.y;
                 direction.y = 0;
 
-                movement.Input = Vector3.Lerp(movement.Input, direction, 0.2f);
+                movement.Input = Vector3.Lerp(movement.Input, direction, TimeUtils.AdjustToFrameRate(0.2f));
 
                 return ChaserMonsterState.Chasing;
             }

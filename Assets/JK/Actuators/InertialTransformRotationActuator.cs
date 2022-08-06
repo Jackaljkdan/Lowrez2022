@@ -1,3 +1,4 @@
+using JK.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -34,7 +35,7 @@ namespace JK.Actuators
 
         private void Update()
         {
-            inertia = Vector3.Lerp(inertia, Input, lerp);
+            inertia = Vector3.Lerp(inertia, Input, TimeUtils.AdjustToFrameRate(lerp));
 
             if (Mathf.Approximately(inertia.sqrMagnitude, 0))
                 return;
