@@ -539,6 +539,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1741862483}
+  - {fileID: 720659258}
   m_Father: {fileID: 445045132}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1104,6 +1105,52 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e8186a8957c48804198cd43053d228ea, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &720659257
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 720659258}
+  - component: {fileID: 720659259}
+  m_Layer: 0
+  m_Name: TensionMusic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 4294967295
+  m_IsActive: 1
+--- !u!4 &720659258
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720659257}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 459735284}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &720659259
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 720659257}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 576f6009591c0fe4086307420a995709, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  chaseThreshold: 0.8
+  returnToExploreThreshold: 0.3
+  isPlayingChase: 0
 --- !u!1 &794410153
 GameObject:
   m_ObjectHideFlags: 0
@@ -1177,6 +1224,7 @@ MonoBehaviour:
     breakValue: 0
     <IsGrabbing>k__BackingField: 0
     <IsBroken>k__BackingField: 0
+  recoverSeconds: 1
   state: 0
 --- !u!114 &794410157
 MonoBehaviour:
@@ -1342,6 +1390,8 @@ MonoBehaviour:
   flickersPerSecond: 0.1
   offSeconds: 0.15
   variancePercentage: 0.5
+  rescheduleThresholdPercentage: 0.2
+  nextFlickerTime: 0
 --- !u!114 &884081717
 MonoBehaviour:
   m_ObjectHideFlags: 0
