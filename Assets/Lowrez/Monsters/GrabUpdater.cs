@@ -17,9 +17,9 @@ namespace Lowrez.Monsters
         public float grabSecondsToKill = 5;
 
         public float inputBreakAmount = 0.1f;
-        public float refillBreakAmount = 0.05f;
+        public float refillBreakAmount = 0.01f;
 
-        public float breakPushLerp = 0.1f;
+        public float breakPushLerp = 0.2f;
 
         [Header("Runtime")]
 
@@ -101,10 +101,10 @@ namespace Lowrez.Monsters
             );
 
             grabSeconds += Time.deltaTime;
-            breakValue = Mathf.Max(0, breakValue - refillBreakAmount * Application.targetFrameRate * Time.deltaTime);
+            breakValue = Mathf.Max(0, breakValue - TimeUtils.AdjustToFrameRate(refillBreakAmount));
 
-            if (grabSeconds >= grabSecondsToKill)
-                return;  // TODO: morte
+            //if (grabSeconds >= grabSecondsToKill)
+            //    return;  // TODO: morte
 
             if (input.sqrMagnitude == 0)
                 return;
@@ -122,11 +122,20 @@ namespace Lowrez.Monsters
         public void Stop()
         {
             IsBroken = true;
-            playerMovement.enabled = true;
+
+            grabber.StartCoroutine(StopGrabCoroutine());
+            grabber.StartCoroutine(ReEnableStuffCoroutine());
+        }
+
+        private IEnumerator ReEnableStuffCoroutine()
+        {
             playerRotation.enabled = true;
+
+            yield return new WaitForSeconds(0.1f);
+
+            playerMovement.enabled = true;
             playerCollider.enabled = true;
             grabber.GetComponent<Collider2D>().enabled = true;
-            grabber.StartCoroutine(StopGrabCoroutine());
         }
 
         private IEnumerator StopGrabCoroutine()
