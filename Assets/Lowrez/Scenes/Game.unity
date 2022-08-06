@@ -690,6 +690,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   roomPrefabs:
   - {fileID: 2619709041068589893, guid: c910219cd04ae4c459826f8dfb5d4588, type: 3}
+  - {fileID: 8811058027554569555, guid: 207e083374098164abbd9d274dce0800, type: 3}
   dbgTarget: {fileID: 0}
 --- !u!114 &85689926
 MonoBehaviour:
