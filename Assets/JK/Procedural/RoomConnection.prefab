@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 1989281873925213943}
   - component: {fileID: 1989281873925213944}
   m_Layer: 0
-  m_Name: EditorOnlySquare
+  m_Name: EditorOnlySprite
   m_TagString: EditorOnly
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -26,7 +26,7 @@ Transform:
   m_GameObject: {fileID: 1989281873925213942}
   m_LocalRotation: {x: -0.6532815, y: 0.27059805, z: 0.27059805, w: 0.6532815}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 10, y: 10, z: 1}
+  m_LocalScale: {x: 20, y: 20, z: 1}
   m_Children: []
   m_Father: {fileID: 1989281875319811401}
   m_RootOrder: 1
