@@ -38,6 +38,15 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Floor
+    uniqueID: 3037220115
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: WallsDoors
+    uniqueID: 1905864383
+    locked: 0
+  - name: Entities
+    uniqueID: 2940182109
     locked: 0
