@@ -17,13 +17,19 @@ namespace JK.Attention
         public float offSeconds = 0.1f;
 
         public float variancePercentage = 0.5f;
+        
+        public float rescheduleThresholdPercentage = 0.2f;
+
+        [Header("Runtime")]
+
+        [SerializeField]
+        private float nextFlickerTime = 0;
 
         #endregion
 
         private float minIntensity = 0;
         private float maxIntensity = 1;
 
-        private float nextFlickerTime = 0;
 
         private void Awake()
         {
@@ -32,7 +38,7 @@ namespace JK.Attention
 
         private void Start()
         {
-            RescheduleNextFlicker();
+            ForceRescheduleNextFlicker();
         }
 
         private void Update()
@@ -46,7 +52,7 @@ namespace JK.Attention
             var light = GetComponent<Light2D>();
             light.intensity = light.intensity = minIntensity;
 
-            RescheduleNextFlicker();
+            ForceRescheduleNextFlicker();
 
             IEnumerator restoreIntensityCoroutine()
             {
@@ -59,11 +65,25 @@ namespace JK.Attention
             StartCoroutine(restoreIntensityCoroutine());
         }
 
-        public void RescheduleNextFlicker()
+        public void ForceRescheduleNextFlicker()
         {
             float avgWaitSeconds = 1 / flickersPerSecond;
             float delta = avgWaitSeconds * variancePercentage;
             nextFlickerTime = Time.time + UnityEngine.Random.Range(avgWaitSeconds - delta, avgWaitSeconds + delta);
+        }
+
+        public void RescheduleNextFlickerIfNeeded()
+        {
+            float waitSeconds = nextFlickerTime - Time.time;
+
+            if (waitSeconds < 1)
+                return;
+
+            float avgWaitSeconds = 1 / flickersPerSecond;
+            float delta = Math.Abs(waitSeconds - avgWaitSeconds);
+
+            if (delta > avgWaitSeconds * rescheduleThresholdPercentage)
+                ForceRescheduleNextFlicker();
         }
     }
 }

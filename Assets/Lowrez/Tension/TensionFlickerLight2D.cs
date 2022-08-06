@@ -17,6 +17,14 @@ namespace Lowrez.Tension
 
         public float maxFlickersPerSecond = 5;
 
+        public AnimationCurve curve = AnimationCurve.Linear(0, 0, 1, 1);
+
+        private void OnValidate()
+        {
+            if (Application.isPlaying && tension != null)
+                OnTensionChanged(new ObservableProperty<float>.Changed() { updated = tension.Value });
+        }
+
         #endregion
 
         private ObservableProperty<float> tension;
@@ -40,8 +48,8 @@ namespace Lowrez.Tension
         private void OnTensionChanged(ObservableProperty<float>.Changed arg)
         {
             var flicker = GetComponent<FlickerLight2D>();
-            flicker.flickersPerSecond = Mathf.Lerp(minFlickersPerSecond, maxFlickersPerSecond, arg.updated);
-            flicker.RescheduleNextFlicker();
+            flicker.flickersPerSecond = Mathf.Lerp(minFlickersPerSecond, maxFlickersPerSecond, curve.Evaluate(arg.updated));
+            flicker.RescheduleNextFlickerIfNeeded();
         }
     }
 }
