@@ -100,6 +100,7 @@ namespace Lowrez.Monsters
 
                 if (distance <= maxDistanceToGrab)
                 {
+                    // TODO: tensione al max
                     grabUpdater.Start();
                     return ChaserMonsterState.Grabbing;
                 }
