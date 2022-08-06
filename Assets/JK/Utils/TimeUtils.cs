@@ -8,9 +8,9 @@ namespace JK.Utils
 {
     public static class TimeUtils
     {
-        public static float AdjustToFrameRate(float value)
+        public static float AdjustToFrameRate(float value, float targetFrameRate = 60)
         {
-            return value * Application.targetFrameRate * Time.deltaTime;
+            return value * targetFrameRate * Time.deltaTime;
         }
     }
 }
