@@ -117,5 +117,12 @@ namespace JK.Utils
             UnityEditor.Undo.CollapseUndoOperations(group);
 #endif
         }
+
+        public static void SetDirty(UnityEngine.Object target)
+        {
+#if UNITY_EDITOR
+            UnityEditor.EditorUtility.SetDirty(target);
+#endif
+        }
     }
 }
