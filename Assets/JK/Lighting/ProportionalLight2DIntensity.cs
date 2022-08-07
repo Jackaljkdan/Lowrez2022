@@ -28,7 +28,10 @@ namespace JK.Lighting
 
         private void LateUpdate()
         {
-            GetComponent<Light2D>().intensity = maxIntensity * target.intensity / targetMaxIntensity;
+            GetComponent<Light2D>().intensity = target.enabled
+                ? maxIntensity * target.intensity / targetMaxIntensity
+                : 0
+            ;
         }
     }
 }
