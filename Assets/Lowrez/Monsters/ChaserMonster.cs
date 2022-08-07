@@ -16,8 +16,9 @@ namespace Lowrez.Monsters
     {
         #region Inspector
 
-        public float maxDistanceToChase = 2;
-        public float maxDistanceToGrab = 0.1f;
+        public float aggroRange = 2;
+        public float stopAggroRangeMultiplier = 3;
+        public float grabRange = 0.15f;
 
         public GrabUpdater grabUpdater = new GrabUpdater();
 
@@ -56,7 +57,7 @@ namespace Lowrez.Monsters
 
         private bool IsPlayerTooFar()
         {
-            return Vector3.Distance(playerTransform.position, transform.position) > maxDistanceToChase;
+            return Vector3.Distance(playerTransform.position, transform.position) > aggroRange;
         }
 
         private void Update()
@@ -93,7 +94,7 @@ namespace Lowrez.Monsters
             var movement = GetComponent<IMovementActuator>();
             float distance = Vector3.Distance(playerTransform.position, transform.position);
 
-            if (distance <= maxDistanceToChase && distance > maxDistanceToGrab)
+            if (distance <= aggroRange * stopAggroRangeMultiplier && distance > grabRange)
             {
                 Vector3 direction = (playerTransform.position - transform.position).normalized;
                 direction.z = direction.y;
@@ -107,7 +108,7 @@ namespace Lowrez.Monsters
             {
                 movement.Input = Vector3.zero;
 
-                if (distance > maxDistanceToGrab)
+                if (distance > grabRange)
                     return ChaserMonsterState.Idle;
 
                 signalBus.Invoke(new GrabbedSignal());

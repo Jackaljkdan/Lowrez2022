@@ -70,7 +70,7 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 1905864383
-  m_SortingLayer: 1
+  m_SortingLayer: 2
   m_SortingOrder: 0
   m_Sprite: {fileID: 6750987736431425758, guid: 321f12e9acd030c4ebb31c9cb69ad2d9, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
@@ -165,7 +165,7 @@ MonoBehaviour:
   - {x: -1, y: 0.38, z: 2.7105054e-20}
   m_ShapePathHash: 1714439733
   m_Mesh: {fileID: 0}
-  m_InstanceId: 49152
+  m_InstanceId: 61884
 --- !u!1 &2438674363630524788
 GameObject:
   m_ObjectHideFlags: 0
@@ -243,6 +243,7 @@ MonoBehaviour:
   openClip: {fileID: 8300000, guid: ff50ca1a15c4ea34aa2d8fb39cc747ca, type: 3}
   closeClip: {fileID: 8300000, guid: ff50ca1a15c4ea34aa2d8fb39cc747ca, type: 3}
   lockedClip: {fileID: 0}
+  normalizedTimeBeforePlayingSameClip: 0.5
   collider: {fileID: 2438674362737821973}
   onInteraction:
     m_PersistentCalls:
@@ -399,7 +400,7 @@ MonoBehaviour:
   - {x: -1, y: 0.38, z: 2.7105054e-20}
   m_ShapePathHash: 1714439733
   m_Mesh: {fileID: 0}
-  m_InstanceId: 49166
+  m_InstanceId: 61898
 --- !u!1 &5305548191520430734
 GameObject:
   m_ObjectHideFlags: 0
@@ -411,8 +412,8 @@ GameObject:
   - component: {fileID: 6582514542520299721}
   - component: {fileID: 9165565761603020836}
   - component: {fileID: 5476567214012327798}
-  m_Layer: 9
-  m_Name: InteractionTriggerable
+  m_Layer: 10
+  m_Name: FlashlightTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
