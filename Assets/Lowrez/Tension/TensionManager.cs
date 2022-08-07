@@ -20,6 +20,7 @@ namespace Lowrez.Tension
         #endregion
         
         private ObservableProperty<float> tension;
+        private TensionMusic tensionMusic;
         private SignalBus signalBus;
         
         private Tween tensionTween;
@@ -29,6 +30,7 @@ namespace Lowrez.Tension
             var context = Context.Find(this);
             
             tension = context.Get<ObservableProperty<float>>("tension");
+            tensionMusic = context.Get<TensionMusic>();
             signalBus = context.Get<SignalBus>();
         }
 
@@ -36,12 +38,18 @@ namespace Lowrez.Tension
         {
             signalBus.AddListener<GrabbedSignal>(OnGrabbed);
             signalBus.AddListener<UngrabbedSignal>(OnUngrabbed);
+
+            signalBus.AddListener<ChasingSignal>(OnChasing);
+            signalBus.AddListener<StopChasingSignal>(OnStopChasing);
         }
 
         private void OnDestroy()
         {
             signalBus.RemoveListener<GrabbedSignal>(OnGrabbed);
             signalBus.RemoveListener<UngrabbedSignal>(OnUngrabbed);
+
+            signalBus.RemoveListener<ChasingSignal>(OnChasing);
+            signalBus.RemoveListener<StopChasingSignal>(OnStopChasing);
         }
 
         public Tween DOTension(float value, float seconds)
@@ -66,6 +74,26 @@ namespace Lowrez.Tension
         private void OnUngrabbed(UngrabbedSignal signal)
         {
             DOTension(0, backToZeroSeconds);
+        }
+
+        private bool isChasing = false;
+
+        private void OnChasing(ChasingSignal signal)
+        {
+            if (!isChasing)
+            {
+                isChasing = true;
+                DOTension(tensionMusic.chaseThreshold + 0.01f, 0.2f);
+            }
+        }
+
+        private void OnStopChasing(StopChasingSignal signal)
+        {
+            if (isChasing)
+            {
+                isChasing = false;
+                DOTension(0, backToZeroSeconds);
+            }
         }
     }
 }

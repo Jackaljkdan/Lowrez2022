@@ -18,6 +18,7 @@ namespace Lowrez.Monsters
 
         public float aggroRange = 2;
         public float stopAggroRangeMultiplier = 3;
+        public float fakeStopChasingRangeMultiplier = 2;
         public float grabRange = 0.15f;
 
         public GrabUpdater grabUpdater = new GrabUpdater();
@@ -94,13 +95,22 @@ namespace Lowrez.Monsters
             var movement = GetComponent<IMovementActuator>();
             float distance = Vector3.Distance(playerTransform.position, transform.position);
 
-            if (distance <= aggroRange * stopAggroRangeMultiplier && distance > grabRange)
+            float stopAggroRange = aggroRange * stopAggroRangeMultiplier;
+
+            if (distance <= stopAggroRange && distance > grabRange)
             {
                 Vector3 direction = (playerTransform.position - transform.position).normalized;
                 direction.z = direction.y;
                 direction.y = 0;
 
                 movement.Input = Vector3.Lerp(movement.Input, direction, TimeUtils.AdjustToFrameRate(0.2f));
+
+                float fakeStopChasingRange = aggroRange * fakeStopChasingRangeMultiplier;
+
+                if (distance < fakeStopChasingRange)
+                    signalBus.Invoke(new ChasingSignal());
+                else
+                    signalBus.Invoke(new StopChasingSignal());
 
                 return ChaserMonsterState.Chasing;
             }
