@@ -44,4 +44,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   connectionsParent: {fileID: 8424672359804437213}
-  collidersParent: {fileID: 8424672359804437213}
+  fitter: {fileID: 0}

@@ -68,9 +68,18 @@ namespace JK.Procedural
             Room room = GetRoom();
             Transform targetTransform = target.transform;
 
-            room.transform.rotation = Quaternion.LookRotation(-targetTransform.forward, targetTransform.up);
-            Quaternion rotationOffset = Quaternion.FromToRotation(room.transform.InverseTransformDirection(transform.forward), Vector3.forward);
-            room.transform.rotation *= rotationOffset;
+            //Quaternion connectionRotation = Quaternion.LookRotation(-targetTransform.forward, targetTransform.up);
+            //Quaternion rotationOffset = Quaternion.FromToRotation(room.transform.InverseTransformDirection(transform.forward), Vector3.forward);
+            //room.transform.rotation = rotationOffset * connectionRotation;
+
+            // https://answers.unity.com/questions/1408415/rotating-a-parent-object-to-achieve-a-specific-chi.html
+            //Quaternion targetConnectionRotation = Quaternion.LookRotation(-targetTransform.forward, targetTransform.up);
+            //Quaternion lookRotationVar = targetConnectionRotation * Quaternion.Inverse(transform.rotation);
+            //lookRotationVar = lookRotationVar * room.transform.rotation;
+            //room.transform.rotation = lookRotationVar;
+
+            Quaternion targetConnectionRotation = Quaternion.LookRotation(-targetTransform.forward, targetTransform.up);
+            room.transform.rotation = targetConnectionRotation * Quaternion.Inverse(transform.rotation) * room.transform.rotation;
 
             Vector3 positionOffset = room.transform.position - transform.position;
             room.transform.position = targetTransform.position + positionOffset;

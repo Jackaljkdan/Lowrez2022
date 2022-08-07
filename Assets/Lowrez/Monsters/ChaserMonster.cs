@@ -99,7 +99,7 @@ namespace Lowrez.Monsters
 
             if (distance <= stopAggroRange && distance > grabRange)
             {
-                Vector3 direction = (playerTransform.position - transform.position).normalized;
+                Vector3 direction = transform.InverseTransformDirection((playerTransform.position - transform.position).normalized);
                 direction.z = direction.y;
                 direction.y = 0;
 
