@@ -45,7 +45,11 @@ namespace Lowrez.Doors
 
         private void Start()
         {
-            // TODO: imposta animazione al primo frame
+            animator.Play(startsOpen ? openAnimationName : closeAnimationName, 0, 1);
+            if (startsOpen)
+                OnDoorOpened();
+            else
+                OnDoorClosed();
         }
 
         private void Update()
@@ -72,7 +76,7 @@ namespace Lowrez.Doors
             float currentNormalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
             float targetNormalizedTime = IsAnimating ? 1 - currentNormalizedTime : 0;
 
-            Debug.Log($"door interaction: opening = {IsOpening} anim = {IsAnimating} tnt = {targetNormalizedTime}");
+            //Debug.Log($"door interaction: opening = {IsOpening} anim = {IsAnimating} tnt = {targetNormalizedTime}");
 
             if (!IsOpening)
             {
