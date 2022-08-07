@@ -20,6 +20,9 @@ namespace JK.Lighting
         public AudioClip onClip;
         public AudioClip offClip;
 
+        public UnityEvent onSwitchOn = new UnityEvent();
+        public UnityEvent onSwitchOff = new UnityEvent();
+
         private void Reset()
         {
             target = GetComponent<Light2D>();
@@ -42,6 +45,11 @@ namespace JK.Lighting
 
             if (target.TryGetComponent(out FlickerLight2D flicker))
                 flicker.enabled = on;
+
+            if (on)
+                onSwitchOn.Invoke();
+            else
+                onSwitchOff.Invoke();
         }
     }
 }
