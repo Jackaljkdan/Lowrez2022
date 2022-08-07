@@ -10,13 +10,14 @@ namespace JK.Utils
     {
         #region Inspector
 
-        
+        public bool onlyOnBuild = false;
 
         #endregion
 
         private void Awake()
         {
-            gameObject.SetActive(false);
+            if (!PlatformUtils.IsEditor || !onlyOnBuild)
+                gameObject.SetActive(false);
         }
     }
 }
