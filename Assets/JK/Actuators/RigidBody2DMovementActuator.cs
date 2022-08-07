@@ -16,6 +16,8 @@ namespace JK.Actuators
 
         public Transform _directionReference;
 
+        public bool clampInput = true;
+
         [field: SerializeField, Header("Runtime")]
         public Vector3 Input { get; set; }
 
@@ -53,12 +55,16 @@ namespace JK.Actuators
             var body = GetComponent<Rigidbody2D>();
 
             Vector2 properInput = new Vector2(Input.x, Input.z);
-            Vector2 clampedInput = Vector2.ClampMagnitude(properInput, 1);
 
-            body.velocity = DirectionReference.TransformDirection(clampedInput) * Speed;
+            Vector2 processedInput = clampInput
+                ? Vector2.ClampMagnitude(properInput, 1)
+                : properInput
+            ;
+
+            body.velocity = DirectionReference.TransformDirection(processedInput) * Speed;
 
             if (Input.sqrMagnitude > 0)
-                onMovement.Invoke(properInput);
+                onMovement.Invoke(processedInput);
         }
     }
 }

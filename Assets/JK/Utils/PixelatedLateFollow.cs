@@ -11,24 +11,25 @@ namespace JK.Utils
     {
         #region Inspector
 
-        public int unit = 1;
+        public float unit = 1;
 
         #endregion
 
         private void LateUpdate()
         {
-            transform.position = new Vector3(
+            Vector3 pixelated = new Vector3(
                 Pixelate(target.position.x),
                 Pixelate(target.position.y),
                 Pixelate(target.position.z)
             );
+
+            transform.position = pixelated + offset;
         }
 
         private float Pixelate(float value)
         {
-            int floor = Mathf.FloorToInt(value);
-            int mod = floor % unit;
-            return floor - mod;
+            float mult = value / unit;
+            return unit * Mathf.Floor(mult);
         }
     }
 }

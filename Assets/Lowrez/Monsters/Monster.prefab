@@ -87,6 +87,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _speed: 1.5
   _directionReference: {fileID: 1022275018460211822}
+  clampInput: 0
   <Input>k__BackingField: {x: 0, y: 0, z: 0}
   _onMovement:
     m_PersistentCalls:
