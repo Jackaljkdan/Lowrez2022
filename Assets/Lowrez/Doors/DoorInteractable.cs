@@ -41,21 +41,16 @@ namespace Lowrez.Doors
 
         public bool IsAnimating { get; private set; }
 
-        public bool IsOpening => animator.GetCurrentAnimatorStateInfo(0).shortNameHash == Animator.StringToHash(openAnimationName);
+        public bool IsOpen { get; private set; }
 
         private void Start()
         {
             animator.Play(startsOpen ? openAnimationName : closeAnimationName, 0, 1);
+
             if (startsOpen)
                 OnDoorOpened();
             else
                 OnDoorClosed();
-        }
-
-        private void Update()
-        {
-            if (Input.GetMouseButtonDown(0))
-                PerformInteraction(default);
         }
 
         private void PlayAudioClip(AudioClip clip)
@@ -66,45 +61,76 @@ namespace Lowrez.Doors
 
         protected override void PerformInteraction(RaycastHit hit)
         {
-            if (isLocked)
+            if (!IsOpen)
+                OpenAsInteraction();
+            else
+                CloseAsInteraction();
+        }
+
+        public void Open()
+        {
+            OpenOrClose(open: true, isInteraction: false);
+        }
+
+        public void OpenAsInteraction()
+        {
+            OpenOrClose(open: true, isInteraction: true);
+        }
+
+        public void Close()
+        {
+            OpenOrClose(open: false, isInteraction: false);
+        }
+
+        public void CloseAsInteraction()
+        {
+            OpenOrClose(open: false, isInteraction: true);
+        }
+
+        private float GetTargetNormalizedTime()
+        {
+            float currentNormalizedTime = Mathf.Clamp01(animator.GetCurrentAnimatorStateInfo(0).normalizedTime);
+            return IsAnimating ? 1 - currentNormalizedTime : 0;
+        }
+
+        private void OpenOrClose(bool open, bool isInteraction)
+        {
+            if (isInteraction && isLocked)
             {
                 PlayAudioClip(lockedClip);
                 onInteraction.Invoke();
                 return;
             }
 
-            float currentNormalizedTime = animator.GetCurrentAnimatorStateInfo(0).normalizedTime;
-            float targetNormalizedTime = IsAnimating ? 1 - currentNormalizedTime : 0;
+            Debug.Log($"door action: isopen = {IsOpen} wantopen = {open} anim = {IsAnimating} tnt = {GetTargetNormalizedTime()}");
 
-            //Debug.Log($"door interaction: opening = {IsOpening} anim = {IsAnimating} tnt = {targetNormalizedTime}");
+            if (IsOpen == open)
+                return;
 
-            if (!IsOpening)
-            {
-                animator.Play(openAnimationName, 0, targetNormalizedTime);
-                PlayAudioClip(openClip);
-            }
-            else
-            {
-                animator.Play(closeAnimationName, 0, targetNormalizedTime);
-                PlayAudioClip(closeClip);
-                collider.enabled = true;
-            }
-
+            animator.Play(open ? openAnimationName : closeAnimationName, 0, GetTargetNormalizedTime());
+            PlayAudioClip(open ? openClip : closeClip);
+            IsOpen = open;
             IsAnimating = true;
 
-            onInteraction.Invoke();
+            if (!open)
+                collider.enabled = true;
+
+            if (isInteraction)
+                onInteraction.Invoke();
         }
 
         public void OnDoorOpened()
         {
             IsAnimating = false;
             collider.enabled = false;
+            IsOpen = true;
         }
 
         public void OnDoorClosed()
         {
             IsAnimating = false;
             collider.enabled = true;
+            IsOpen = false;
         }
     }
 }
