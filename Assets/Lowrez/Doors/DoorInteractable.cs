@@ -25,6 +25,7 @@ namespace Lowrez.Doors
         public AudioClip openClip = null;
         public AudioClip closeClip = null;
         public AudioClip lockedClip = null;
+        public float normalizedTimeBeforePlayingSameClip = 0.5f;
 
         public new Collider2D collider;
 
@@ -53,10 +54,22 @@ namespace Lowrez.Doors
                 OnDoorClosed();
         }
 
+        private AudioClip lastPlayedClip;
+        private float lastPlayTime;
+
         private void PlayAudioClip(AudioClip clip)
         {
-            if (audioSource != null && clip != null)
-                audioSource.PlayOneShot(clip);
+            if (audioSource == null || clip == null)
+                return;
+
+            float playTime = Time.time - lastPlayTime;
+
+            if (lastPlayedClip == clip && (playTime / clip.length) < normalizedTimeBeforePlayingSameClip)
+                return;
+
+            lastPlayTime = Time.time;
+            lastPlayedClip = clip;
+            audioSource.PlayOneShot(clip);
         }
 
         protected override void PerformInteraction(RaycastHit hit)
@@ -102,7 +115,7 @@ namespace Lowrez.Doors
                 return;
             }
 
-            Debug.Log($"door action: isopen = {IsOpen} wantopen = {open} anim = {IsAnimating} tnt = {GetTargetNormalizedTime()}");
+            //Debug.Log($"door action: isopen = {IsOpen} wantopen = {open} anim = {IsAnimating} tnt = {GetTargetNormalizedTime()}");
 
             if (IsOpen == open)
                 return;
