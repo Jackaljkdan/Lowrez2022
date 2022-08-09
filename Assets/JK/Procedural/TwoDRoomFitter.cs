@@ -1,3 +1,4 @@
+using JK.Injection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -14,6 +15,10 @@ namespace JK.Procedural
 
         public LayerMask mask;
 
+        [Header("Runtime")]
+
+        public Room room;
+
         #endregion
 
         [NonSerialized]
@@ -23,6 +28,23 @@ namespace JK.Procedural
         {
             colliders = new List<Collider2D>(8);
             GetComponentsInChildren(colliders);
+        }
+
+        private void Start()
+        {
+            if (!Application.isPlaying)
+                return;
+
+            room = GetComponentInParent<Room>();
+
+            foreach (var coll in colliders)
+            {
+                var trigger = coll.gameObject.AddComponent<RoomFitterTrigger>();
+                trigger.room = room;
+            }
+
+            Transform targetParent = Context.Find(this).Get<Transform>("room.fitters");
+            transform.SetParent(targetParent, worldPositionStays: true);
         }
 
         private static Collider2D[] overlapBuffer = new Collider2D[1];

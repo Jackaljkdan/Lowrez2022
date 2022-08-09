@@ -19,14 +19,14 @@ namespace Lowrez.Rooms
 
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            if (collision.TryGetComponentInParent(out Room room))
-                room.gameObject.SetActive(true);
+            if (collision.TryGetComponent(out RoomFitterTrigger trigger))
+                trigger.room.gameObject.SetActive(true);
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            if (collision.TryGetComponentInParent(out Room room))
-                room.gameObject.SetActive(false);
+            if (collision.TryGetComponent(out RoomFitterTrigger trigger))
+                trigger.room.gameObject.SetActive(false);
         }
     }
 }
