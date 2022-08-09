@@ -15,13 +15,15 @@ namespace JK.Sounds
 
         #endregion
 
-        public void PlayRandom()
+        public AudioClip PlayRandom()
         {
             try
             {
                 int randomIndex = UnityEngine.Random.Range(0, clips.Count);
                 AudioClip randomClip = clips[randomIndex];
                 GetComponent<AudioSource>().PlayOneShot(randomClip);
+
+                return randomClip;
             }
             catch (NullReferenceException)
             {
@@ -31,6 +33,8 @@ namespace JK.Sounds
             {
                 // clips is empty, ignore
             }
+
+            return null;
         }
     }
     
