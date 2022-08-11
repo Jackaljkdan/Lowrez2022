@@ -32,6 +32,9 @@ TextureImporter:
   - first:
       213: 5910408626728933436
     second: columnsPacked_10
+  - first:
+      213: -6845803820013895956
+    second: columnsPacked_7
   externalObjects: {}
   serializedVersion: 11
   mipmaps:
@@ -266,6 +269,48 @@ TextureImporter:
       bones: []
       spriteID: 34bb8f3530703db60800000000000000
       internalID: 7769561493019343683
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: columnsPacked_6
+      rect:
+        serializedVersion: 2
+        x: 224
+        y: 192
+        width: 32
+        height: 32
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: aa2ceeba01f5b0040800000000000000
+      internalID: 4614886768379871914
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: columnsPacked_7
+      rect:
+        serializedVersion: 2
+        x: 232
+        y: 136
+        width: 16
+        height: 16
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: cee3f0242b1def0a0800000000000000
+      internalID: -6845803820013895956
       vertices: []
       indices: 
       edges: []
