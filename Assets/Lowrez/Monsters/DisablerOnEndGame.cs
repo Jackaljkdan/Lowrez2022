@@ -8,7 +8,7 @@ using UnityEngine.Events;
 namespace Lowrez.Monsters
 {
     [DisallowMultipleComponent]
-    public class DisablerOnBrainDeath : MonoBehaviour
+    public class DisablerOnEndGame : MonoBehaviour
     {
         #region Inspector
 

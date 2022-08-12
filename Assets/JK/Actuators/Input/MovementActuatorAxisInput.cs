@@ -31,5 +31,10 @@ namespace JK.Actuators.Input
 
             GetComponent<IMovementActuator>().Input = input;
         }
+
+        private void OnDisable()
+        {
+            GetComponent<IMovementActuator>().Input = Vector3.zero;
+        }
     }
 }

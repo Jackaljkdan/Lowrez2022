@@ -5010,6 +5010,7 @@ GameObject:
   - component: {fileID: 884081717}
   - component: {fileID: 884081720}
   - component: {fileID: 884081719}
+  - component: {fileID: 884081721}
   - component: {fileID: 884081718}
   m_Layer: 0
   m_Name: Flashlight
@@ -5320,6 +5321,19 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &884081721
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 884081711}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c85bc5b37f18354a9b5966131b9dc88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 884081719}
 --- !u!1 &911058697
 GameObject:
   m_ObjectHideFlags: 0
@@ -5331,6 +5345,7 @@ GameObject:
   - component: {fileID: 911058698}
   - component: {fileID: 911058699}
   - component: {fileID: 911058701}
+  - component: {fileID: 911058707}
   - component: {fileID: 911058700}
   - component: {fileID: 911058702}
   - component: {fileID: 911058703}
@@ -5494,6 +5509,19 @@ MonoBehaviour:
   - {fileID: 911058704}
   id: player
   injectionType: 1
+--- !u!114 &911058707
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 911058697}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2c85bc5b37f18354a9b5966131b9dc88, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  target: {fileID: 911058701}
 --- !u!43 &972729619
 Mesh:
   m_ObjectHideFlags: 0
