@@ -45,13 +45,13 @@ namespace Lowrez.Monsters
             signalBus = Context.Find(this).Get<SignalBus>();
         }
 
-        private void Start()
+        private void OnEnable()
         {
             painTrigger.onEnter.AddListener(OnPainTriggerEnter);
             painTrigger.onExit.AddListener(OnPainTriggerExit);
         }
 
-        private void OnDestroy()
+        private void OnDisable()
         {
             painTrigger.onEnter.RemoveListener(OnPainTriggerEnter);
             painTrigger.onExit.RemoveListener(OnPainTriggerExit);

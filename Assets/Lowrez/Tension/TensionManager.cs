@@ -41,6 +41,9 @@ namespace Lowrez.Tension
 
             signalBus.AddListener<ChasingSignal>(OnChasing);
             signalBus.AddListener<StopChasingSignal>(OnStopChasing);
+
+            signalBus.AddListener<BrainPainSignal>(OnBrainPainSignal);
+            signalBus.AddListener<BrainDeathSignal>(OnBrainDeathSignal);
         }
 
         private void OnDestroy()
@@ -50,6 +53,9 @@ namespace Lowrez.Tension
 
             signalBus.RemoveListener<ChasingSignal>(OnChasing);
             signalBus.RemoveListener<StopChasingSignal>(OnStopChasing);
+
+            signalBus.RemoveListener<BrainPainSignal>(OnBrainPainSignal);
+            signalBus.RemoveListener<BrainDeathSignal>(OnBrainDeathSignal);
         }
 
         public Tween DOTension(float value, float seconds)
@@ -77,13 +83,16 @@ namespace Lowrez.Tension
         }
 
         private bool isChasing = false;
+        private bool isBrainPain = false;
 
         private void OnChasing(ChasingSignal signal)
         {
-            if (!isChasing)
+            if (!isChasing )
             {
                 isChasing = true;
-                DOTension(tensionMusic.chaseThreshold + 0.01f, 0.2f);
+
+                if (!isBrainPain)
+                    DOTension(tensionMusic.chaseThreshold + 0.01f, 0.2f);
             }
         }
 
@@ -92,8 +101,26 @@ namespace Lowrez.Tension
             if (isChasing)
             {
                 isChasing = false;
-                DOTension(0, backToZeroSeconds);
+
+                if (!isBrainPain)
+                    DOTension(0, backToZeroSeconds);
             }
+        }
+
+        private void OnBrainPainSignal(BrainPainSignal signal)
+        {
+            isBrainPain = signal.isStart;
+
+            if (isBrainPain)
+                DOTension(1, 0.2f);
+            else if (!isChasing)
+                DOTension(0, backToZeroSeconds);
+        }
+
+        private void OnBrainDeathSignal(BrainDeathSignal signal)
+        {
+            DOTension(0, 1);
+            OnDestroy();
         }
     }
 }
