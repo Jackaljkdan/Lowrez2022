@@ -4171,8 +4171,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 884081713}
   audioSource: {fileID: 884081718}
-  onClip: {fileID: 0}
-  offClip: {fileID: 0}
+  onClip: {fileID: 8300000, guid: e7361663e598afb4f993ee357f21a063, type: 3}
+  offClip: {fileID: 8300000, guid: e7361663e598afb4f993ee357f21a063, type: 3}
   onSwitchOn:
     m_PersistentCalls:
       m_Calls:
