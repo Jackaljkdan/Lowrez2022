@@ -94,6 +94,7 @@ namespace Lowrez.Monsters
                 if (!audioSource.isPlaying)
                 {
                     enabled = false;
+                    Debug.Log("brain death");
                     signalBus.Invoke(new BrainDeathSignal());
                 }
             }

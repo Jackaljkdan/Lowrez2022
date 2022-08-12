@@ -3924,6 +3924,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   chaseThreshold: 0.8
   returnToExploreThreshold: 0.3
+  endgameClip: {fileID: 8300000, guid: b298d61cb6abaf84787f0fad66ea50ad, type: 3}
   isPlayingChase: 0
 --- !u!114 &720659260
 MonoBehaviour:

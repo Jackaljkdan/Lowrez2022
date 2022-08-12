@@ -1,6 +1,7 @@
 using DG.Tweening;
 using JK.Injection;
 using JK.Observables;
+using Lowrez.Monsters;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,6 +19,8 @@ namespace Lowrez.Tension
 
         public float returnToExploreThreshold = 0.3f;
 
+        public AudioClip endgameClip;
+
         [Header("Runtime")]
 
         [SerializeField]
@@ -29,6 +32,7 @@ namespace Lowrez.Tension
         private AudioSource chaseSource;
         private ObservableProperty<float> tension;
 
+        private SignalBus signalBus;
 
         private void Awake()
         {
@@ -37,16 +41,20 @@ namespace Lowrez.Tension
             exploreSource = context.Get<AudioSource>("explore");
             chaseSource = context.Get<AudioSource>("chase");
             tension = context.Get<ObservableProperty<float>>("tension");
+
+            signalBus = context.Get<SignalBus>();
         }
 
         private void Start()
         {
             tension.onChange.AddListener(OnTensionChanged);
+            signalBus.AddListener<BrainDeathSignal>(OnBrainDeathSignal);
         }
 
         private void OnDestroy()
         {
             tension.onChange.RemoveListener(OnTensionChanged);
+            signalBus.RemoveListener<BrainDeathSignal>(OnBrainDeathSignal);
         }
 
         private void OnTensionChanged(ObservableProperty<float>.Changed arg)
@@ -79,6 +87,18 @@ namespace Lowrez.Tension
 
                 isPlayingChase = false;
             }
+        }
+
+        private void OnBrainDeathSignal(BrainDeathSignal signal)
+        {
+            OnDestroy();
+            chaseSource.DOFade(0, 2);
+
+            exploreSource.clip = endgameClip;
+            exploreSource.time = 0;
+            exploreSource.volume = 1;
+            exploreSource.loop = false;
+            exploreSource.Play();
         }
     }
 }
