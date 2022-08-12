@@ -1,4 +1,5 @@
 using DG.Tweening;
+using JK.Injection;
 using JK.Utils;
 using JK.World;
 using System;
@@ -21,6 +22,7 @@ namespace Lowrez.Monsters
         public float healAmount = 0.1f;
 
         [Header("Runtime")]
+
         public float pain;
 
         [field: SerializeField]
@@ -35,6 +37,13 @@ namespace Lowrez.Monsters
         #endregion
 
         private Tween tween;
+
+        private SignalBus signalBus;
+
+        private void Awake()
+        {
+            signalBus = Context.Find(this).Get<SignalBus>();
+        }
 
         private void Start()
         {
@@ -55,6 +64,8 @@ namespace Lowrez.Monsters
                 IsInPain = true;
                 audioSource.time = pain;
                 audioSource.Play();
+
+                signalBus.Invoke(new BrainPainSignal() { isStart = true });
             }
 
             tween?.Kill();
@@ -69,6 +80,8 @@ namespace Lowrez.Monsters
             {
                 IsInPain = false;
                 audioSource.Pause();
+
+                signalBus.Invoke(new BrainPainSignal() { isStart = false });
             };
         }
 
@@ -77,6 +90,12 @@ namespace Lowrez.Monsters
             if (IsInPain)
             {
                 pain = audioSource.time;
+
+                if (!audioSource.isPlaying)
+                {
+                    enabled = false;
+                    signalBus.Invoke(new BrainDeathSignal());
+                }
             }
             else
             {
