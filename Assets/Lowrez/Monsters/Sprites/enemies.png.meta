@@ -45,6 +45,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -292,6 +293,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      pink_arms_monster_0: 2731795287329381114
+      pink_arms_monster_1: 3229708652140166120
+      gray_arms_monster_2: -8108438390446734492
+      gray_arms_monster_0: -2782341204894616949
+      brain: -6812798382714016367
+      pink_arms_monster_2: 876784968147787122
+      gray_arms_monster_1: 6230911579049521198
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

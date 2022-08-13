@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 using UnityEngine.Tilemaps;
-using UnityEngine.Experimental.Rendering.Universal;
+
 using System;
 
 namespace JK.Lighting
@@ -19,7 +19,7 @@ namespace JK.Lighting
         static readonly FieldInfo _shapePathField;
         static readonly MethodInfo _generateShadowMeshMethod;
 
-        ShadowCaster2D[] _shadowCasters;
+        UnityEngine.Rendering.Universal.ShadowCaster2D[] _shadowCasters;
 
         Tilemap _tilemap;
         CompositeCollider2D _compositeCollider;
@@ -30,12 +30,12 @@ namespace JK.Lighting
         /// </summary>
         static ShadowCaster2DFromComposite()
         {
-            _meshField = typeof(ShadowCaster2D).GetField("m_Mesh", BindingFlags.NonPublic | BindingFlags.Instance);
-            _shapePathField = typeof(ShadowCaster2D).GetField("m_ShapePath", BindingFlags.NonPublic | BindingFlags.Instance);
+            _meshField = typeof(UnityEngine.Rendering.Universal.ShadowCaster2D).GetField("m_Mesh", BindingFlags.NonPublic | BindingFlags.Instance);
+            _shapePathField = typeof(UnityEngine.Rendering.Universal.ShadowCaster2D).GetField("m_ShapePath", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            _generateShadowMeshMethod = typeof(ShadowCaster2D)
+            _generateShadowMeshMethod = typeof(UnityEngine.Experimental.Rendering.Universal.PixelPerfectCamera)
                                         .Assembly
-                                        .GetType("UnityEngine.Experimental.Rendering.Universal.ShadowUtility")
+                                        .GetType("UnityEngine.Rendering.Universal.ShadowUtility")
                                         .GetMethod("GenerateShadowMesh", BindingFlags.Public | BindingFlags.Static);
         }
 
@@ -84,7 +84,7 @@ namespace JK.Lighting
         {
             _compositeCollider = GetComponent<CompositeCollider2D>();
             CreateShadowGameObjects();
-            _shadowCasters = GetComponentsInChildren<ShadowCaster2D>();
+            _shadowCasters = GetComponentsInChildren<UnityEngine.Rendering.Universal.ShadowCaster2D>();
             for (int i = 0; i < _compositeCollider.pathCount; i++)
             {
                 GetCompositeVerts(i);
@@ -107,7 +107,7 @@ namespace JK.Lighting
             {
                 GameObject newShadowCaster = new GameObject("ShadowCaster");
                 newShadowCaster.transform.parent = transform;
-                newShadowCaster.AddComponent<ShadowCaster2D>();
+                newShadowCaster.AddComponent<UnityEngine.Rendering.Universal.ShadowCaster2D>();
             }
         }
 
@@ -131,7 +131,7 @@ namespace JK.Lighting
         /// verts in CompositeCollider2D and then generates the mesh
         /// </summary>
         /// <param name="caster"></param>
-        private void UpdateCompositeShadow(ShadowCaster2D caster)
+        private void UpdateCompositeShadow(UnityEngine.Rendering.Universal.ShadowCaster2D caster)
         {
             caster.castsShadows = castsShadows;
             caster.selfShadows = selfShadows;

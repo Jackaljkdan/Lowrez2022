@@ -63,6 +63,7 @@ TextureImporter:
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+  ignoreMasterTextureLimit: 0
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -436,6 +437,20 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+    nameFileIdTable:
+      door_magic_5: -3813957895643319183
+      door_normal_3: -1156514691743307414
+      door_normal_1: 6750987736431425758
+      door_magic_3: 8272023497553938944
+      door_organic_4: -7037842594108204779
+      door_normal_4: -5869873724788712370
+      door_organic_1: 1308679017610120818
+      door_organic_3: 3997338004448197912
+      door_magic_4: -7794273071397281860
+      door_organic_2: -7972576404697737973
+      door_magic_1: -8458522060679029643
+      door_magic_2: 5466900881963460571
+      door_normal_2: 2982644332970639994
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0

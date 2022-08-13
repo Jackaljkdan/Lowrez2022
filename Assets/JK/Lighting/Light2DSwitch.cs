@@ -5,7 +5,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Experimental.Rendering.Universal;
+
 
 namespace JK.Lighting
 {
@@ -14,7 +14,7 @@ namespace JK.Lighting
     {
         #region Inspector
 
-        public Light2D target;
+        public UnityEngine.Rendering.Universal.Light2D target;
 
         public AudioSource audioSource;
         public AudioClip onClip;
@@ -25,7 +25,7 @@ namespace JK.Lighting
 
         private void Reset()
         {
-            target = GetComponent<Light2D>();
+            target = GetComponent<UnityEngine.Rendering.Universal.Light2D>();
             audioSource = GetComponent<AudioSource>();
         }
 

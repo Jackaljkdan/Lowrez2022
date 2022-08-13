@@ -3,12 +3,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.Experimental.Rendering.Universal;
+
 
 namespace JK.Attention
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(Light2D))]
+    [RequireComponent(typeof(UnityEngine.Rendering.Universal.Light2D))]
     public class FlickerLight2D : MonoBehaviour
     {
         #region Inspector
@@ -33,7 +33,7 @@ namespace JK.Attention
 
         private void Awake()
         {
-            maxIntensity = GetComponent<Light2D>().intensity;
+            maxIntensity = GetComponent<UnityEngine.Rendering.Universal.Light2D>().intensity;
         }
 
         private void Start()
@@ -49,7 +49,7 @@ namespace JK.Attention
             if (Time.time < nextFlickerTime)
                 return;
 
-            var light = GetComponent<Light2D>();
+            var light = GetComponent<UnityEngine.Rendering.Universal.Light2D>();
             light.intensity = light.intensity = minIntensity;
 
             ForceRescheduleNextFlicker();
