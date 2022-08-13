@@ -17,7 +17,20 @@ namespace JK.Actuators.Input
 
         private void Update()
         {
-            GetComponent<IRotationTowardsTargetActuator>().Target = camera.ScreenToWorldPoint(UnityEngine.Input.mousePosition);
+            var mousePosition = UnityEngine.Input.mousePosition;
+            var normalizedMousePosition = new Vector3(
+                mousePosition.x / Screen.width - 0.5f,
+                mousePosition.y / Screen.height - 0.5f
+            );
+
+            // TODO: fix con classe base
+            var actuator = GetComponent<RigidBody2DRotationTowardsTargetActuator>();
+
+            Vector3 worldPoint = actuator.transform.position + normalizedMousePosition;
+
+            Debug.Log($"mp: {mousePosition:0.0} nmp: {normalizedMousePosition:0.0} wp: {worldPoint:0.0}");
+
+            GetComponent<IRotationTowardsTargetActuator>().Target = worldPoint;
         }
     }
 }
