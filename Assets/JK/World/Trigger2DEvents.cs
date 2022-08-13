@@ -16,14 +16,21 @@ namespace JK.World
 
         #endregion
 
+        private void Start()
+        {
+            // leave this even if empty so that this behaviour can be enabled/disabled in the inspector
+        }
+
         private void OnTriggerEnter2D(Collider2D collision)
         {
-            onEnter.Invoke(collision);
+            if (enabled)
+                onEnter.Invoke(collision);
         }
 
         private void OnTriggerExit2D(Collider2D collision)
         {
-            onExit.Invoke(collision);
+            if (enabled)
+                onExit.Invoke(collision);
         }
     }
 }

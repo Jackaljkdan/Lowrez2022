@@ -28,7 +28,7 @@ namespace JK.Actuators.Input
 
             Vector3 worldPoint = actuator.transform.position + normalizedMousePosition;
 
-            Debug.Log($"mp: {mousePosition:0.0} nmp: {normalizedMousePosition:0.0} wp: {worldPoint:0.0}");
+            //Debug.Log($"mp: {mousePosition:0.0} nmp: {normalizedMousePosition:0.0} wp: {worldPoint:0.0}");
 
             GetComponent<IRotationTowardsTargetActuator>().Target = worldPoint;
         }
