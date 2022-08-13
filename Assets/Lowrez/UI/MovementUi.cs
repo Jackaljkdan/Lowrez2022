@@ -1,4 +1,6 @@
 using DG.Tweening;
+using JK.Actuators;
+using JK.Injection;
 using JK.Utils;
 using Lowrez.Monsters;
 using System;
@@ -30,6 +32,8 @@ namespace Lowrez.UI
         {
             base.Start();
 
+            signalBus.AddListener<ClosedLightUiSignal>(OnClosedLightUiSignal);
+
             signalBus.AddListener<GrabbedSignal>(OnGrabbedSignal);
             signalBus.AddListener<UngrabbedSignal>(OnUngrabbedSignal);
 
@@ -48,11 +52,16 @@ namespace Lowrez.UI
             signalBus.RemoveListener<UngrabbedSignal>(OnUngrabbedSignal);
         }
 
+        private void OnClosedLightUiSignal(ClosedLightUiSignal arg)
+        {
+            ShowAsTutorial();
+        }
+
         protected override void OnEndGame(bool win)
         {
             RemoveListeners();
-            grabbingCount = 1;
-            OnUngrabbedSignal(new UngrabbedSignal());
+            StopAllCoroutines();
+            ForceDismiss();
         }
 
         private void OnGrabbedSignal(GrabbedSignal arg)
@@ -62,6 +71,32 @@ namespace Lowrez.UI
             if (grabbingCount != 1)
                 return;
 
+            Show(speed: 2);
+        }
+
+        private void OnUngrabbedSignal(UngrabbedSignal arg)
+        {
+            grabbingCount = Mathf.Max(0, grabbingCount - 1);
+            DismissIfAppropriate();
+        }
+
+        private void ShowAsTutorial()
+        {
+            Show(speed: 0.5f);
+
+            var playerMovement = Context.Find(this).Get<MovementActuatorBehaviour>("player");
+
+            IEnumerator DismissOnInputCoroutine()
+            {
+                yield return new WaitWhile(() => playerMovement.Input.sqrMagnitude == 0);
+                DismissIfAppropriate();
+            }
+
+            StartCoroutine(DismissOnInputCoroutine());
+        }
+
+        private void Show(float speed)
+        {
             tween?.Kill();
 
             target.gameObject.SetActive(true);
@@ -69,16 +104,19 @@ namespace Lowrez.UI
             var spriteRenderer = target.GetComponent<SpriteRenderer>();
             spriteRenderer.color = Color.white.WithAlpha(0);
             tween = spriteRenderer.DOFade(1, 0.25f);
-            target.SetFloat("Speed", 2);
+            target.SetFloat("Speed", speed);
         }
 
-        private void OnUngrabbedSignal(UngrabbedSignal arg)
+        private void DismissIfAppropriate()
         {
-            grabbingCount = Mathf.Max(0, grabbingCount - 1);
-
             if (grabbingCount > 0)
                 return;
 
+            ForceDismiss();
+        }
+
+        private void ForceDismiss()
+        {
             tween?.Kill();
 
             var spriteRenderer = target.GetComponent<SpriteRenderer>();

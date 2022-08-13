@@ -33,15 +33,22 @@ namespace JK.Lighting
 
         public bool IsOn => target.enabled;
 
-        public void Switch()
+        private void Start()
         {
-            Switch(!IsOn);
+            Switch(IsOn, playSound: false);
         }
 
-        private void Switch(bool on)
+        public void Switch()
+        {
+            Switch(!IsOn, playSound: true);
+        }
+
+        private void Switch(bool on, bool playSound)
         {
             target.enabled = on;
-            audioSource.PlayOneShotSafely(on ? onClip : offClip);
+
+            if (playSound)
+                audioSource.PlayOneShotSafely(on ? onClip : offClip);
 
             if (target.TryGetComponent(out FlickerLight2D flicker))
                 flicker.enabled = on;
