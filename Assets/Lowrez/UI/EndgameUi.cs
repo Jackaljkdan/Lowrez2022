@@ -11,7 +11,7 @@ using UnityEngine.Events;
 namespace Lowrez.UI
 {
     [DisallowMultipleComponent]
-    public class EndgameUi : MonoBehaviour
+    public class EndgameUi : EndgameListener
     {
         #region Inspector
 
@@ -26,26 +26,14 @@ namespace Lowrez.UI
 
         #endregion
 
-        private SignalBus signalBus;
-
-        private void Awake()
+        protected override void Start()
         {
-            signalBus = Context.Find(this).Get<SignalBus>();
-        }
-
-        private void Start()
-        {
+            base.Start();
             backgroundRenderer.gameObject.SetActive(false);
             endgameRenderer.gameObject.SetActive(false);
-            signalBus.AddListener<BrainDeathSignal>(OnBrainDeathSignal);
         }
 
-        private void OnDestroy()
-        {
-            signalBus.RemoveListener<BrainDeathSignal>(OnBrainDeathSignal);
-        }
-
-        private void OnBrainDeathSignal(BrainDeathSignal signal)
+        protected override void OnEndGame(bool win)
         {
             backgroundRenderer.gameObject.SetActive(true);
 
