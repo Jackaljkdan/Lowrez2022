@@ -44,8 +44,6 @@ namespace Lowrez.Monsters
 
         private void OnStateChanged(ObservableProperty<ChaserMonsterState>.Changed arg)
         {
-            Debug.Log($"updated state {arg.old} to {arg.updated}");
-
             switch (arg.updated)
             {
                 case ChaserMonsterState.Idle:
