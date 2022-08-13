@@ -3,6 +3,7 @@ using JK.Actuators.Input;
 using JK.Injection;
 using JK.Observables;
 using JK.Utils;
+using Lowrez.Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -131,6 +132,12 @@ namespace Lowrez.Monsters
         private ChaserMonsterState GrabUpdate()
         {
             grabUpdater.Update();
+
+            if (grabUpdater.HasKilled)
+            {
+                signalBus.Invoke(new PlayerDeathSignal());
+                enabled = false;
+            }
 
             if (grabUpdater.IsGrabbing)
                 return ChaserMonsterState.Grabbing;

@@ -1,5 +1,6 @@
 using JK.Actuators;
 using JK.Actuators.Input;
+using JK.Injection;
 using JK.Utils;
 using System;
 using System.Collections;
@@ -30,6 +31,9 @@ namespace Lowrez.Monsters
 
         [field: SerializeField]
         public bool IsBroken { get; private set; }
+
+        [field: SerializeField]
+        public bool HasKilled { get; private set; }
 
         #endregion
 
@@ -70,7 +74,7 @@ namespace Lowrez.Monsters
             playerCollider.enabled = false;
             grabber.GetComponent<Collider2D>().enabled = false;
 
-            grabSeconds = 0;  // TODO: punto di partenza sulla base di salute del giocatore
+            grabSeconds = 0;  // TODO mai: punto di partenza sulla base di salute del giocatore
             breakValue = 0;
             lastInput = Vector2.zero;
 
@@ -79,6 +83,7 @@ namespace Lowrez.Monsters
 
             IsGrabbing = true;
             IsBroken = false;
+            HasKilled = false;
         }
 
         private IEnumerator BeginGrabCoroutine()
@@ -92,7 +97,7 @@ namespace Lowrez.Monsters
 
         public void Update()
         {
-            if (IsBroken)
+            if (IsBroken || HasKilled)
                 return;
 
             Vector2 input = new Vector2(
@@ -103,8 +108,11 @@ namespace Lowrez.Monsters
             grabSeconds += Time.deltaTime;
             breakValue = Mathf.Max(0, breakValue - TimeUtils.AdjustToFrameRate(refillBreakAmount));
 
-            //if (grabSeconds >= grabSecondsToKill)
-            //    return;  // TODO: morte
+            if (grabSeconds >= grabSecondsToKill)
+            {
+                HasKilled = true;
+                return;
+            }
 
             if (input.sqrMagnitude == 0)
                 return;

@@ -11,7 +11,7 @@ using UnityEngine.Events;
 namespace Lowrez.Tension
 {
     [DisallowMultipleComponent]
-    public class TensionManager : MonoBehaviour
+    public class TensionManager : EndgameListener
     {
         #region Inspector
 
@@ -21,12 +21,13 @@ namespace Lowrez.Tension
         
         private ObservableProperty<float> tension;
         private TensionMusic tensionMusic;
-        private SignalBus signalBus;
         
         private Tween tensionTween;
 
-        private void Awake()
+        protected override void Awake()
         {
+            base.Awake();
+
             var context = Context.Find(this);
             
             tension = context.Get<ObservableProperty<float>>("tension");
@@ -34,8 +35,10 @@ namespace Lowrez.Tension
             signalBus = context.Get<SignalBus>();
         }
 
-        private void Start()
+        protected override void Start()
         {
+            base.Start();
+
             signalBus.AddListener<GrabbedSignal>(OnGrabbed);
             signalBus.AddListener<UngrabbedSignal>(OnUngrabbed);
 
@@ -43,11 +46,12 @@ namespace Lowrez.Tension
             signalBus.AddListener<StopChasingSignal>(OnStopChasing);
 
             signalBus.AddListener<BrainPainSignal>(OnBrainPainSignal);
-            signalBus.AddListener<BrainDeathSignal>(OnBrainDeathSignal);
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
+
             signalBus.RemoveListener<GrabbedSignal>(OnGrabbed);
             signalBus.RemoveListener<UngrabbedSignal>(OnUngrabbed);
 
@@ -55,7 +59,6 @@ namespace Lowrez.Tension
             signalBus.RemoveListener<StopChasingSignal>(OnStopChasing);
 
             signalBus.RemoveListener<BrainPainSignal>(OnBrainPainSignal);
-            signalBus.RemoveListener<BrainDeathSignal>(OnBrainDeathSignal);
         }
 
         public Tween DOTension(float value, float seconds)
@@ -117,7 +120,7 @@ namespace Lowrez.Tension
                 DOTension(0, backToZeroSeconds);
         }
 
-        private void OnBrainDeathSignal(BrainDeathSignal signal)
+        protected override void OnEndGame(bool win)
         {
             DOTension(0, 1);
             OnDestroy();

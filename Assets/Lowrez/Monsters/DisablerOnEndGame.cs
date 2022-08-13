@@ -8,7 +8,7 @@ using UnityEngine.Events;
 namespace Lowrez.Monsters
 {
     [DisallowMultipleComponent]
-    public class DisablerOnEndGame : MonoBehaviour
+    public class DisablerOnEndGame : EndgameListener
     {
         #region Inspector
 
@@ -16,24 +16,7 @@ namespace Lowrez.Monsters
 
         #endregion
 
-        private SignalBus signalBus;
-
-        private void Awake()
-        {
-            signalBus = Context.Find(this).Get<SignalBus>();
-        }
-
-        private void Start()
-        {
-            signalBus.AddListener<BrainDeathSignal>(OnBrainDeathSignal);
-        }
-
-        private void OnDestroy()
-        {
-            signalBus.RemoveListener<BrainDeathSignal>(OnBrainDeathSignal);
-        }
-
-        private void OnBrainDeathSignal(BrainDeathSignal signal)
+        protected override void OnEndGame(bool win)
         {
             target.enabled = false;
         }

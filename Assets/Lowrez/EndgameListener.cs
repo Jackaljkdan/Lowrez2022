@@ -1,12 +1,13 @@
 using JK.Injection;
 using Lowrez.Monsters;
+using Lowrez.Player;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
-namespace Lowrez.UI
+namespace Lowrez
 {
     [DisallowMultipleComponent]
     public abstract class EndgameListener : MonoBehaviour
@@ -27,8 +28,7 @@ namespace Lowrez.UI
         protected virtual void Start()
         {
             signalBus.AddListener<BrainDeathSignal>(OnBrainDeathSignal);
-            // TODO: ascoltare segnale morte giocatore
-            //signalBus.AddListener<BrainDeathSignal>(OnBranDeathSignal);
+            signalBus.AddListener<PlayerDeathSignal>(OnPlayerDeathSignal);
         }
 
         protected virtual void OnDestroy()
@@ -39,13 +39,17 @@ namespace Lowrez.UI
         private void RemoveListeners()
         {
             signalBus.RemoveListener<BrainDeathSignal>(OnBrainDeathSignal);
-            // TODO: togliere segnale morte giocatore
-            //signalBus.RemoveListener<BrainDeathSignal>(OnBranDeathSignal);
+            signalBus.RemoveListener<PlayerDeathSignal>(OnPlayerDeathSignal);
         }
 
         private void OnBrainDeathSignal(BrainDeathSignal arg)
         {
             OnPrivateEndGame(win: true);
+        }
+
+        private void OnPlayerDeathSignal(PlayerDeathSignal arg)
+        {
+            OnPrivateEndGame(win: false);
         }
 
         private void OnPrivateEndGame(bool win)

@@ -1,3 +1,4 @@
+using JK.Utils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -20,7 +21,8 @@ namespace JK.Lighting
 
         private void Update()
         {
-            Cursor.lockState = CursorLockMode.Confined;
+            if (!PlatformUtils.IsEditor)
+                Cursor.lockState = CursorLockMode.Confined;
 
             float value = UnityEngine.Input.GetAxisRaw(axis);
 

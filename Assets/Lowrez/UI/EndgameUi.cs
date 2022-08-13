@@ -51,12 +51,12 @@ namespace Lowrez.UI
 
             backgroundRenderer.sprite = organicBgSprite;
             backgroundRenderer.color = Color.white.WithAlpha(0);
-            backgroundRenderer.DOColor(Color.white, 2).onComplete += () =>
+            backgroundRenderer.DOFade(win ? 1 : 0.5f, 2).onComplete += () =>
             {
                 endgameRenderer.gameObject.SetActive(true);
-                endgameRenderer.sprite = winSprite;
+                endgameRenderer.sprite = win ? winSprite : loseSprite;
                 endgameRenderer.color = Color.white.WithAlpha(0);
-                endgameRenderer.DOColor(Color.white, 1);
+                endgameRenderer.DOFade(1, 1);
             };
         }
     }
