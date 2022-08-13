@@ -1,0 +1,15 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!221 &22100000
+AnimatorOverrideController:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: OrganicDoorAnimatorController
+  m_Controller: {fileID: 9100000, guid: 3c6e39ec234b6d7458002d802e0315d4, type: 2}
+  m_Clips:
+  - m_OriginalClip: {fileID: 7400000, guid: 746e18864977289448877557c26b1233, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: 16e2008a58f4f1d4d90f9d6b86661d6c, type: 2}
+  - m_OriginalClip: {fileID: 7400000, guid: 8b20a66a1cd694242a575068e1993cd5, type: 2}
+    m_OverrideClip: {fileID: 7400000, guid: e8a42091a6fc4dc4988e8f6ed57738fe, type: 2}
