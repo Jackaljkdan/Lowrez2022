@@ -8,11 +8,9 @@ using UnityEngine.Events;
 namespace JK.Procedural
 {
     [DisallowMultipleComponent]
-    public class ProceduralRoomCreator : MonoBehaviour
+    public abstract class ProceduralRoomCreator : MonoBehaviour
     {
         #region Inspector
-
-        public List<Room> roomPrefabs;
 
         [Header("Debug")]
 
@@ -27,11 +25,6 @@ namespace JK.Procedural
 
         #endregion
 
-        private void Start()
-        {
-
-        }
-
         public void CreateRoomsAdjacentTo(Room room)
         {
             foreach (Room _ in CreateAndEnumerateRoomsAdjacentTo(room)) ;
@@ -40,10 +33,7 @@ namespace JK.Procedural
         public IEnumerable<Room> CreateAndEnumerateRoomsAdjacentTo(Room room)
         {
             if (room == null)
-            {
-                yield return InstantiateRandomRoom();
                 yield break;
-            }
 
             foreach (var connection in room.Connections)
             {
@@ -68,9 +58,7 @@ namespace JK.Procedural
 
         private bool TryInstantiatingFittingRoomConnectedTo(RoomConnection connection, out Room instance)
         {
-            roomPrefabs.ShuffleInPlace();
-
-            foreach (var prefab in roomPrefabs)
+            foreach (var prefab in EnumerateRoomPrefabsForInstantiation())
             {
                 instance = InstantiateRoom(prefab);
 
@@ -96,15 +84,15 @@ namespace JK.Procedural
                     Destroy(instance.gameObject);
             }
 
+            FillUnfittableConnection(connection);
+
             instance = null;
             return false;
-        } 
-
-        private Room InstantiateRandomRoom()
-        {
-            int randomIndex = UnityEngine.Random.Range(0, roomPrefabs.Count);
-            return InstantiateRoom(roomPrefabs[randomIndex]);
         }
+
+        public abstract IEnumerable<Room> EnumerateRoomPrefabsForInstantiation();
+
+        public abstract void FillUnfittableConnection(RoomConnection connection);
 
         private Room InstantiateRoom(Room prefab)
         {
