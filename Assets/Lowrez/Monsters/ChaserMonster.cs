@@ -1,6 +1,7 @@
 using JK.Actuators;
 using JK.Actuators.Input;
 using JK.Injection;
+using JK.Observables;
 using JK.Utils;
 using System;
 using System.Collections;
@@ -27,7 +28,7 @@ namespace Lowrez.Monsters
 
         [Header("Runtime")]
 
-        public ChaserMonsterState state;
+        public ObservableProperty<ChaserMonsterState> State = new ObservableProperty<ChaserMonsterState>();
 
         #endregion
 
@@ -53,7 +54,7 @@ namespace Lowrez.Monsters
 
         private void Start()
         {
-            state = ChaserMonsterState.Idle;
+            State.Value = ChaserMonsterState.Idle;
         }
 
         private bool IsPlayerTooFar()
@@ -63,12 +64,12 @@ namespace Lowrez.Monsters
 
         private void Update()
         {
-            state = StateUpdate();
+            State.Value = StateUpdate();
         }
 
         private ChaserMonsterState StateUpdate()
         {
-            switch (state)
+            switch (State.Value)
             {
                 case ChaserMonsterState.Idle:
                 default:

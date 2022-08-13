@@ -9,6 +9,7 @@ namespace JK.Observables
     [Serializable]
     public class ObservableProperty<T>
     {
+        [SerializeField]
         private T _value;
 
         public T Value
@@ -16,10 +17,10 @@ namespace JK.Observables
             get => _value;
             set
             {
-                if (ReferenceEquals(_value, value) && _value.Equals(value))
+                if (ReferenceEquals(_value, value) || _value.Equals(value))
                     return;
 
-                T old = value;
+                T old = _value;
                 _value = value;
 
                 onChange.Invoke(new Changed()
@@ -41,6 +42,11 @@ namespace JK.Observables
         public void SetSilently(T value)
         {
             _value = value;
+        }
+
+        public override string ToString()
+        {
+            return _value?.ToString();
         }
     }
 }
