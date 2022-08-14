@@ -15,14 +15,19 @@ namespace Lowrez.Monsters
 
         public ChaserMonster monster;
 
-        public AudioSource audioSource;
-
         public List<AudioClip> contactClips;
+
+        public float secondsBetweenSteps = 0.5f;
+
+        public List<AudioClip> stepClips;
+
+        public AudioSource contactAudioSource;
+        public AudioSource stepAudioSource;
 
         private void Reset()
         {
             monster = GetComponentInParent<ChaserMonster>();
-            audioSource = GetComponentInChildren<AudioSource>();
+            contactAudioSource = GetComponentInChildren<AudioSource>();
         }
 
         #endregion
@@ -40,7 +45,36 @@ namespace Lowrez.Monsters
         private void OnStateChanged(ObservableProperty<ChaserMonsterState>.Changed arg)
         {
             if (arg.updated == ChaserMonsterState.Chasing)
-                audioSource.PlayRandomClip(contactClips, oneShot: true);
+                contactAudioSource.PlayRandomClip(contactClips, oneShot: true);
+        }
+
+        private float lastStepTime;
+
+        private bool wasMoving = false;
+
+        private void LateUpdate()
+        {
+            bool isMoving = monster.movementActuator.Input.sqrMagnitude > 0;
+            
+            if (!wasMoving && isMoving)
+            {
+                wasMoving = true;
+                lastStepTime = Time.time;
+            }
+
+            if (!isMoving)
+            {
+                wasMoving = false;
+                return;
+            }
+
+            float elapsed = Time.time - lastStepTime;
+
+            if (elapsed >= secondsBetweenSteps)
+            {
+                lastStepTime = Time.time;
+                stepAudioSource.PlayRandomClip(stepClips, oneShot: true);
+            }
         }
     }
 }

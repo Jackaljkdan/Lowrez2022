@@ -13,7 +13,6 @@ using UnityEngine.Events;
 namespace Lowrez.Monsters
 {
     [DisallowMultipleComponent]
-    [RequireComponent(typeof(IMovementActuator))]
     public class ChaserMonster : MonoBehaviour
     {
         #region Inspector
@@ -26,6 +25,8 @@ namespace Lowrez.Monsters
         public GrabUpdater grabUpdater = new GrabUpdater();
 
         public float recoverSeconds = 1;
+
+        public MovementActuatorBehaviour movementActuator;
 
         [Header("Runtime")]
 
@@ -97,7 +98,6 @@ namespace Lowrez.Monsters
 
         private ChaserMonsterState ChaseUpdate()
         {
-            var movement = GetComponent<IMovementActuator>();
             float distance = Vector3.Distance(playerTransform.position, transform.position);
 
             float stopAggroRange = aggroRange * stopAggroRangeMultiplier;
@@ -108,7 +108,7 @@ namespace Lowrez.Monsters
                 direction.z = direction.y;
                 direction.y = 0;
 
-                movement.Input = Vector3.Lerp(movement.Input, direction, TimeUtils.AdjustToFrameRate(0.2f));
+                movementActuator.Input = Vector3.Lerp(movementActuator.Input, direction, TimeUtils.AdjustToFrameRate(0.2f));
 
                 float fakeStopChasingRange = aggroRange * fakeStopChasingRangeMultiplier;
 
@@ -121,7 +121,7 @@ namespace Lowrez.Monsters
             }
             else
             {
-                movement.Input = Vector3.zero;
+                movementActuator.Input = Vector3.zero;
 
                 if (distance > grabRange)
                     return ChaserMonsterState.Idle;
