@@ -1,3 +1,4 @@
+using DG.Tweening;
 using JK.Observables;
 using JK.Utils;
 using System;
@@ -9,7 +10,7 @@ using UnityEngine.Events;
 namespace Lowrez.Monsters
 {
     [DisallowMultipleComponent]
-    public class ChaserMonsterSounds : MonoBehaviour
+    public class ChaserMonsterSounds : EndgameListener
     {
         #region Inspector
 
@@ -19,10 +20,14 @@ namespace Lowrez.Monsters
 
         public float secondsBetweenSteps = 0.5f;
 
+
         public List<AudioClip> stepClips;
+
+        public AudioClip hugClip;
 
         public AudioSource contactAudioSource;
         public AudioSource stepAudioSource;
+        public AudioSource hugAudioSource;
 
         private void Reset()
         {
@@ -32,13 +37,18 @@ namespace Lowrez.Monsters
 
         #endregion
 
-        private void Start()
+        private float hugReferenceVolume;
+
+        protected override void Start()
         {
+            base.Start();
             monster.State.onChange.AddListener(OnStateChanged);
+            hugReferenceVolume = hugAudioSource.volume;
         }
 
-        private void OnDestroy()
+        protected override void OnDestroy()
         {
+            base.OnDestroy();
             monster.State.onChange.RemoveListener(OnStateChanged);
         }
 
@@ -46,6 +56,17 @@ namespace Lowrez.Monsters
         {
             if (arg.updated == ChaserMonsterState.Chasing)
                 contactAudioSource.PlayRandomClip(contactClips, oneShot: true);
+
+            if (arg.updated == ChaserMonsterState.Grabbing)
+            {
+                hugAudioSource.time = 0;
+                hugAudioSource.volume = hugReferenceVolume;
+                hugAudioSource.Play();
+            }
+            else if (arg.old == ChaserMonsterState.Grabbing)
+            {
+                hugAudioSource.DOFade(0, 0.5f).onComplete += () => hugAudioSource.Stop();
+            }
         }
 
         private float lastStepTime;
@@ -75,6 +96,13 @@ namespace Lowrez.Monsters
                 lastStepTime = Time.time;
                 stepAudioSource.PlayRandomClip(stepClips, oneShot: true);
             }
+        }
+
+        protected override void OnEndGame(bool win)
+        {
+            contactAudioSource.DOFade(0, 0.5f);
+            stepAudioSource.DOFade(0, 0.5f);
+            hugAudioSource.DOFade(0, 0.5f);
         }
     }
 }
