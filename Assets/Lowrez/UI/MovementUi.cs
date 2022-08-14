@@ -82,7 +82,7 @@ namespace Lowrez.UI
 
         private void ShowAsTutorial()
         {
-            Show(speed: 0.5f);
+            Show(speed: 0.25f);
 
             var playerMovement = Context.Find(this).Get<MovementActuatorBehaviour>("player");
 
