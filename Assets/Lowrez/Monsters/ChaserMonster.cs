@@ -56,6 +56,9 @@ namespace Lowrez.Monsters
         private void Start()
         {
             State.Value = ChaserMonsterState.Idle;
+
+            Transform targetParent = Context.Find(this).Get<Transform>("monsters");
+            transform.SetParent(targetParent, worldPositionStays: true);
         }
 
         private bool IsPlayerTooFar()
