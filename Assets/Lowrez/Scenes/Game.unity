@@ -323,6 +323,7 @@ GameObject:
   m_Component:
   - component: {fileID: 111006284}
   - component: {fileID: 111006285}
+  - component: {fileID: 111006286}
   m_Layer: 0
   m_Name: EyesightLight
   m_TagString: Untagged
@@ -424,6 +425,22 @@ MonoBehaviour:
   - {x: 0.5, y: -0.5, z: 0}
   - {x: 0.5, y: 0.5, z: 0}
   - {x: -0.5, y: 0.5, z: 0}
+--- !u!114 &111006286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 111006283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 47af86cc31f1914419c9e6e8f5d613c5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  offIntensityMultiplier: 1.5
+  tweenSeconds: 4
+  target: {fileID: 111006285}
+  flashlightSwitch: {fileID: 884081720}
 --- !u!1 &139201553
 GameObject:
   m_ObjectHideFlags: 0
