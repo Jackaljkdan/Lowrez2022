@@ -24,6 +24,16 @@ namespace JK.Procedural
             }
         }
 
+        [ContextMenu("Enable all")]
+        private void EnableAllInEditMode()
+        {
+            foreach (Transform child in transform)
+            {
+                child.gameObject.SetActive(true);
+                Undo.SetDirty(child.gameObject);
+            }
+        }
+
         #endregion
 
         private void Awake()
