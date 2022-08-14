@@ -258,7 +258,7 @@ GameObject:
   - component: {fileID: 1022275020122083716}
   - component: {fileID: 1022275020122083717}
   m_Layer: 10
-  m_Name: FlashlightTrigger
+  m_Name: MonsterFlashlightTrigger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -319,6 +319,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   target: {fileID: 1022275018460211816}
   aggroRangeMultiplier: 5
+  isInEffect: 0
 --- !u!1 &1863615818201505354
 GameObject:
   m_ObjectHideFlags: 0

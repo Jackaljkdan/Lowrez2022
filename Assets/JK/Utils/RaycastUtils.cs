@@ -38,6 +38,10 @@ namespace JK.Utils
         {
             if (Cast(from, target.transform, out hit, layerMask, maxDistance))
             {
+                if (hit.collider.TryGetComponent(out T hitComponent))
+                    if (hitComponent == target)
+                        return true;
+
                 if (hit.collider.TryGetComponent(out IRef<T> hitRef))
                     return hitRef.Ref == target;
             }
