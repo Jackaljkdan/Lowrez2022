@@ -37,7 +37,6 @@ namespace Lowrez.Monsters
 
         #endregion
 
-
         private MonoBehaviour grabber;
         private Transform transform;
         private Transform playerTransform;

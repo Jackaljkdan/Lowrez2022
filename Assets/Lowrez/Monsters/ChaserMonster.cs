@@ -22,7 +22,9 @@ namespace Lowrez.Monsters
         public float fakeStopChasingRangeMultiplier = 2;
         public float grabRange = 0.15f;
 
-        public GrabUpdater grabUpdater = new GrabUpdater();
+        public ChaseUpdater chaseUpdater;
+
+        public GrabUpdater grabUpdater;
 
         public float recoverSeconds = 1;
 
@@ -45,6 +47,8 @@ namespace Lowrez.Monsters
 
             playerTransform = context.Get<Transform>("player");
 
+            chaseUpdater.Inject(movementActuator, playerTransform);
+
             grabUpdater.Inject(
                 this,
                 playerTransform,
@@ -60,11 +64,6 @@ namespace Lowrez.Monsters
 
             Transform targetParent = Context.Find(this).Get<Transform>("monsters");
             transform.SetParent(targetParent, worldPositionStays: true);
-        }
-
-        private bool IsPlayerTooFar()
-        {
-            return Vector3.Distance(playerTransform.position, transform.position) > aggroRange;
         }
 
         private void Update()
@@ -90,7 +89,9 @@ namespace Lowrez.Monsters
 
         private ChaserMonsterState IdleUpdate()
         {
-            if (IsPlayerTooFar())
+            bool isPlayerTooFar = Vector3.Distance(playerTransform.position, transform.position) > aggroRange;
+
+            if (isPlayerTooFar)
                 return ChaserMonsterState.Idle;
             else
                 return ChaserMonsterState.Chasing;
@@ -104,11 +105,7 @@ namespace Lowrez.Monsters
 
             if (distance <= stopAggroRange && distance > grabRange)
             {
-                Vector3 direction = transform.InverseTransformDirection((playerTransform.position - transform.position).normalized);
-                direction.z = direction.y;
-                direction.y = 0;
-
-                movementActuator.Input = Vector3.Lerp(movementActuator.Input, direction, TimeUtils.AdjustToFrameRate(0.2f));
+                chaseUpdater.Update();
 
                 float fakeStopChasingRange = aggroRange * fakeStopChasingRangeMultiplier;
 
