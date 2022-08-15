@@ -17,5 +17,11 @@ namespace JK.Utils
         public static bool IsMobile => Application.isMobilePlatform;
 
         public static bool IsDesktop => !IsMobile;
+
+#if UNITY_WEBGL
+        public const bool IsWebGL = true;
+#else
+        public const bool IsWebGL = false;
+#endif
     }
 }
