@@ -21,9 +21,6 @@ namespace JK.Lighting
 
         private void Update()
         {
-            if (!PlatformUtils.IsEditor)
-                Cursor.lockState = CursorLockMode.Confined;
-
             float value = UnityEngine.Input.GetAxisRaw(axis);
 
             if (value == 1 && value != lastFrameValue)
