@@ -70,15 +70,18 @@ namespace Lowrez.Monsters
 
         private void Update()
         {
-            Vector3 movementInput = monster.movementActuator.Input;
-            movementInput.y = movementInput.z;
-            movementInput.z = 0;
+            //Vector3 movementInput = monster.movementActuator.transform.TransformDirection(monster.movementActuator.Input);
+            //movementInput.y = movementInput.z;
+            //movementInput.z = 0;
 
             //dir = movementInput;
             //lerp = Vector3.Lerp(sprite.right, movementInput, TimeUtils.AdjustToFrameRate(directionLerp));
             //adjLerp = TimeUtils.AdjustToFrameRate(directionLerp);
 
-            sprite.right = Vector3.Lerp(sprite.right, movementInput, TimeUtils.AdjustToFrameRate(directionLerp));
+            //Vector3 targetDirection = movementInput;
+            Vector3 targetDirection = playerTransform.position - transform.position;
+
+            sprite.right = Vector3.Lerp(sprite.right, targetDirection, TimeUtils.AdjustToFrameRate(directionLerp));
         }
     }
 }
