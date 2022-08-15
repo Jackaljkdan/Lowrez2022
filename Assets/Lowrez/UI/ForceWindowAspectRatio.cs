@@ -18,12 +18,12 @@ namespace Lowrez.UI
 
         #endregion
 
-        Text dbgText; 
+        //Text dbgText; 
 
-        private void Awake()
-        {
-            dbgText = Context.Find(this).Get<Text>("dbg");
-        }
+        //private void Awake()
+        //{
+        //    dbgText = Context.Find(this).Get<Text>("dbg");
+        //}
 
         private Vector2 prevSize;
         private Vector2 lastFrameSize;
@@ -42,8 +42,8 @@ namespace Lowrez.UI
             if (Screen.fullScreenMode != FullScreenMode.Windowed)
                 return;
 
-            if (dbgText)
-                dbgText.text = $"{Screen.width} x {Screen.height}";
+            //if (dbgText)
+            //    dbgText.text = $"{Screen.width} x {Screen.height}";
 
             if (PlatformUtils.IsEditor)
                 return;
