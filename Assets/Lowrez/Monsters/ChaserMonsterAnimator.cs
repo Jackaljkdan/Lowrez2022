@@ -22,6 +22,12 @@ namespace Lowrez.Monsters
 
         public float directionLerp = 0.1f;
 
+        //[Header("debug")]
+
+        //public Vector3 dir;
+        //public Vector3 lerp;
+        //public float adjLerp;
+
         #endregion
 
         private Transform playerTransform;
@@ -64,8 +70,15 @@ namespace Lowrez.Monsters
 
         private void Update()
         {
-            Vector3 directionToPlayer = (playerTransform.position - sprite.transform.position).normalized;
-            sprite.right = Vector3.Lerp(sprite.right, directionToPlayer, TimeUtils.AdjustToFrameRate(directionLerp));
+            Vector3 movementInput = monster.movementActuator.Input;
+            movementInput.y = movementInput.z;
+            movementInput.z = 0;
+
+            //dir = movementInput;
+            //lerp = Vector3.Lerp(sprite.right, movementInput, TimeUtils.AdjustToFrameRate(directionLerp));
+            //adjLerp = TimeUtils.AdjustToFrameRate(directionLerp);
+
+            sprite.right = Vector3.Lerp(sprite.right, movementInput, TimeUtils.AdjustToFrameRate(directionLerp));
         }
     }
 }
