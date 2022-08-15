@@ -1,8 +1,10 @@
+using JK.Injection;
 using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.UI;
 
 namespace JK.Actuators.Input
 {
@@ -15,6 +17,13 @@ namespace JK.Actuators.Input
 
         #endregion
 
+        //Text dbgText;
+
+        //private void Awake()
+        //{
+        //    dbgText = Context.Find(this).Get<Text>("dbg");
+        //}
+
         private void Update()
         {
             var mousePosition = UnityEngine.Input.mousePosition;
@@ -26,9 +35,12 @@ namespace JK.Actuators.Input
             // TODO: fix con classe base
             var actuator = GetComponent<RigidBody2DRotationTowardsTargetActuator>();
 
-            Vector3 worldPoint = actuator.transform.position + normalizedMousePosition;
+            Vector3 worldPoint = actuator.transform.position + normalizedMousePosition * 10;
 
             //Debug.Log($"mp: {mousePosition:0.0} nmp: {normalizedMousePosition:0.0} wp: {worldPoint:0.0}");
+
+            //if (dbgText)
+            //    dbgText.text = $"m: {mousePosition:0.0}\nN: {normalizedMousePosition:0.0}\nw: {worldPoint:0.0}";
 
             GetComponent<IRotationTowardsTargetActuator>().Target = worldPoint;
         }
